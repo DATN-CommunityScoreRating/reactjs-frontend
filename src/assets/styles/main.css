@@ -1809,19 +1809,25 @@ body {
   background: url("../images/bg-signup.jpg") no-repeat center top;
 }
 .header-col.header-brand {
+  display: flex;
   white-space: nowrap;
 }
 
-.header-col.header-brand h5 {
-  margin: 0px;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
+.header-col.header-brand img {
+  align-self: center;
+  max-width: 64px;
 }
 
 .header-col.header-nav {
   color: #fff;
   font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.header-col.header-nav h3{
+  line-height: 1.6;
 }
 
 .header-col.header-nav ul li {
@@ -2026,7 +2032,7 @@ body {
   box-shadow: 0 20px 27px rgb(0 0 0 / 5%);
   flex-direction: row;
   padding: 0 50px;
-  height: 64px;
+  height: 80px;
   line-height: 64px;
 }
 .fill-muted {
@@ -2166,7 +2172,7 @@ body {
   color: #8c8c8c;
 }
 
-.row-col .ant-row {
+.row-col .ant-row{
   margin-left: 0px;
   margin-right: 0px;
 }

@@ -1,12 +1,13 @@
-import axios from "axios";
+import {basicAuth} from "./basicAuthService";
 export const login = async function (userData) {
-    const response = await axios.post('http://localhost:8080/login', null, {
-        params: {username: userData.username, password: userData.password}
-    })
+    try {
+        const response = await basicAuth("post", "/login", null, userData, {})
+        if (await response?.data?.success) {
+            localStorage.setItem('user', JSON.stringify(response.data));
 
-    if (response?.data?.access_token) {
-        localStorage.setItem('user', JSON.stringify(response.data));
-
+        }
+        return response.data;
+    } catch (e) {
+        return e.response.data
     }
-    return response.data;
 }

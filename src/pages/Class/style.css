@@ -1,0 +1,12 @@
+.manage-class .filter-button {
+    height: 32px;
+    width: 80px;
+    background-color: #1677ff;
+    color: #fff;
+    border-radius: 6px;
+    border: 0;
+}
+
+.manage-class .filter-button:hover {
+    opacity: 80%;
+}
