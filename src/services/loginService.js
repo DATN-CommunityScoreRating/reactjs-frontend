@@ -1,13 +1,14 @@
-import {basicAuth} from "./basicAuthService";
+import qs from 'querystring';
+import { post } from "../utils/request";
 export const login = async function (userData) {
     try {
-        const response = await basicAuth("post", "/login", null, userData, {})
-        if (await response?.data?.success) {
+        const params = qs.stringify(userData);
+        const response = await post(`login?${params}`)
+        if (response?.success) {
             localStorage.setItem('user', JSON.stringify(response.data));
-
         }
-        return response.data;
+        return response;
     } catch (e) {
-        return e.response.data
+        console.log('error: ', e)
     }
 }
