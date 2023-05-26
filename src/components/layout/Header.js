@@ -1,15 +1,3 @@
-/*!
-  =========================================================
-  * Muse Ant Design Dashboard - v1.0.0
-  =========================================================
-  * Product Page: https://www.creative-tim.com/product/muse-ant-design-dashboard
-  * Copyright 2021 Creative Tim (https://www.creative-tim.com)
-  * Licensed under MIT (https://github.com/creativetimofficial/muse-ant-design-dashboard/blob/main/LICENSE.md)
-  * Coded by Creative Tim
-  =========================================================
-  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import { useState, useEffect } from "react";
 
 import {
@@ -177,6 +165,7 @@ const menu = (
           avatar={<Avatar shape="square" src={item.avatar} />}
           title={item.title}
           description={item.description}
+
         />
       </List.Item>
     )}
@@ -264,6 +253,13 @@ function Header({
   const [sidenavType, setSidenavType] = useState("transparent");
 
   useEffect(() => window.scrollTo(0, 0));
+
+  if (localStorage.getItem("user")){
+    var userData = JSON.parse(localStorage.user)
+    var username = userData.data.name;
+  }
+
+  const fullName = username || "Sign In"
 
   const showDrawer = () => setVisible(true);
   const hideDrawer = () => setVisible(false);
@@ -421,9 +417,9 @@ function Header({
               </div>
             </div>
           </Drawer>
-          <Link to="/sign-in" className="btn-sign-in">
+          <Link to="/profile" className="btn-sign-in">
             {profile}
-            <span>Sign in</span>
+            <span>{fullName}</span>
           </Link>
           <Input
             className="header-search"

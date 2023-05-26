@@ -80,7 +80,7 @@ Muse Ant Design Dashboard
     │   │   │   ├── SignUp.js
     │   │   │   └── Tables.js
     │   │   ├── App.js
-    │   │   └── index.js
+    │   │   └── index.jsx
     │   ├── CHANGELOG.md
     │   ├── LICENSE
     │   ├── package.json
