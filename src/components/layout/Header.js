@@ -254,9 +254,9 @@ function Header({
 
   useEffect(() => window.scrollTo(0, 0));
 
-  if (localStorage.getItem("user")){
+  if (localStorage.getItem("user")) {
     var userData = JSON.parse(localStorage.user)
-    var username = userData.data.name;
+    var username = userData.name;
   }
 
   const fullName = username || "Sign In"
