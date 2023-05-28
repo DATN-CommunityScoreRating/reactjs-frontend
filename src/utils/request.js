@@ -15,7 +15,7 @@ const instance = axios.create({
 })
 
 export const get = async (path, options = {}) => {
-  const response = await instance.get(path, options);
+  const response = await instance.get(path, { params: options });
   return response.data;
 };
 
