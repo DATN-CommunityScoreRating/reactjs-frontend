@@ -1,8 +1,8 @@
 import { get } from "../utils/request";
 
-export const getClasses = async () => {
+export const getCourses = async () => {
     try {
-        const response = await get("classes");
+        const response = await get("courses");
         return response.data;
     } catch (e) {
         return e.response.data

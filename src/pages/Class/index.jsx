@@ -1,20 +1,25 @@
 import { Button, Select, Space, Table } from "antd";
-import Column from "antd/lib/table/Column";
 import "./style.css";
 import { useEffect, useState } from "react";
 import { getFaculties } from "../../services/facultyService";
+import { convertOptions } from "../../utils/helper";
+import { getClasses } from "../../services/classService";
+import { getCourses } from "../../services/courseService";
+import { useHistory } from "react-router-dom";
+import styled from "styled-components";
+
+const ActionStyle = styled.div`
+    display: flex;
+    gap: 10px;
+`;
 
 const ManageClass = () => {
+    const history = useHistory();
     const [faculties, setFaculties] = useState();
-    console.log("🚀 ~ file: index.jsx:9 ~ ManageClass ~ faculties:", faculties);
+    const [classData, setClassData] = useState();
+    const [courseOptions, setCourseOptions] = useState();
     const [course, setCourse] = useState();
 
-    const convertOptions = (data, idField, valueField) => {
-        return (data || []).map((item) => ({
-            value: item[idField],
-            label: item[valueField],
-        }));
-    };
     useEffect(() => {
         getFaculties().then((data) => {
             const options = convertOptions(
@@ -24,51 +29,59 @@ const ManageClass = () => {
             );
             setFaculties(options);
         });
+
+        getClasses().then((data) => {
+            setClassData(data);
+        });
+        getCourses().then((data) => {
+            const options = convertOptions(
+                data?.items,
+                "courseId",
+                "courseName"
+            );
+            setCourseOptions(options);
+        });
     }, []);
-    const datas = [
+
+    const columns = [
         {
-            className: "19TCLC_Nhat1",
-            faculty: "CNTT",
-            course: "Khóa 19",
-            numOfStudent: 20,
+            title: "Lớp",
+            dataIndex: "className",
+            key: "className",
         },
         {
-            className: "19TCLC_Nhat2",
-            faculty: "CNTT",
-            course: "Khóa 19",
-            numOfStudent: 35,
+            title: "Khoa",
+            dataIndex: "faculty",
+            key: "faculty",
         },
         {
-            className: "18H1",
-            faculty: "Hóa",
-            course: "Khóa 18",
-            numOfStudent: 30,
+            title: "Khóa",
+            dataIndex: "course",
+            key: "course",
+        },
+        {
+            title: "Hành động",
+            dataIndex: "action",
+            key: "action",
+            render: (_, record) => {
+                return (
+                    <ActionStyle>
+                        <Button
+                            onClick={() =>
+                                history.push(`users?classId=${record.classId}`)
+                            }
+                        >
+                            Xem sinh viên
+                        </Button>
+                        <Button type={"primary"}>Cập nhật lớp</Button>
+                        <Button type={"default"} danger>
+                            Xóa
+                        </Button>
+                    </ActionStyle>
+                );
+            },
         },
     ];
-
-    const courses = [
-        {
-            value: -1,
-            label: "Tất cả",
-        },
-        {
-            value: 1,
-            label: "Khóa 19",
-        },
-        {
-            value: -1,
-            label: "Khóa 20",
-        },
-        {
-            value: -1,
-            label: "Khóa 21",
-        },
-        {
-            value: -1,
-            label: "Khóa 22",
-        },
-    ];
-
     return (
         <Space
             className={"manage-class"}
@@ -98,36 +111,12 @@ const ManageClass = () => {
                             .toLowerCase()
                             .includes(input.toLowerCase())
                     }
-                    options={courses}
+                    options={courseOptions}
                 />
                 <button className={"filter-button"}>Lọc</button>
             </Space>
             <Button type={"primary"}>Thêm lớp</Button>
-            <Table dataSource={datas}>
-                <Column
-                    title={"Lớp"}
-                    dataIndex={"className"}
-                    key={"className"}
-                />
-                <Column title={"Khoa"} dataIndex={"faculty"} key={"faculty"} />
-                <Column title={"Khóa"} dataIndex={"course"} key={"course"} />
-                <Column
-                    title={"Hành động"}
-                    dataIndex={"action"}
-                    key={"action"}
-                    render={() => (
-                        <>
-                            <Space>
-                                <Button>Xem sinh viên</Button>
-                                <Button type={"primary"}>Cập nhật lớp</Button>
-                                <Button type={"default"} danger>
-                                    Xóa
-                                </Button>
-                            </Space>
-                        </>
-                    )}
-                />
-            </Table>
+            <Table dataSource={classData?.items || []} columns={columns} />
         </Space>
     );
 };
