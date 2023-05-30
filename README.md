@@ -10,17 +10,17 @@ Save weeks of time and build your perfect dashboard with this powerful template!
 
 ## Table of Contents
 
-- [Versions](#versions)
-- [Demo](#demo)
-- [Quick Start](#quick-start)
-- [Documentation](#documentation)
-- [File Structure](#file-structure)
-- [Browser Support](#browser-support)
-- [Resources](#resources)
-- [Reporting Issues](#reporting-issues)
-- [Technical Support or Questions](#technical-support-or-questions)
-- [Licensing](#licensing)
-- [Useful Links](#useful-links)
+-   [Versions](#versions)
+-   [Demo](#demo)
+-   [Quick Start](#quick-start)
+-   [Documentation](#documentation)
+-   [File Structure](#file-structure)
+-   [Browser Support](#browser-support)
+-   [Resources](#resources)
+-   [Reporting Issues](#reporting-issues)
+-   [Technical Support or Questions](#technical-support-or-questions)
+-   [Licensing](#licensing)
+-   [Useful Links](#useful-links)
 
 ## Versions
 
@@ -29,19 +29,19 @@ React
 
 ## Demo
 
-- [Dashboard](https://demos.creative-tim.com/muse-ant-design-dashboard/#/dashboard?ref=readme-madd)
-- [Tables](https://demos.creative-tim.com/muse-ant-design-dashboard/#/tables?ref=readme-madd)
-- [Billing](https://demos.creative-tim.com/muse-ant-design-dashboard/#/billing?ref=readme-madd)
-- [RTL](https://demos.creative-tim.com/muse-ant-design-dashboard/#/rtl?ref=readme-madd)
-- [Profile](https://demos.creative-tim.com/muse-ant-design-dashboard/#/profile?ref=readme-madd)
-- [Sign In](https://demos.creative-tim.com/muse-ant-design-dashboard/#/sign-in?ref=readme-madd)
-- [Sign Up](https://demos.creative-tim.com/muse-ant-design-dashboard/#/sign-up?ref=readme-madd)
+-   [Dashboard](https://demos.creative-tim.com/muse-ant-design-dashboard/#/dashboard?ref=readme-madd)
+-   [Tables](https://demos.creative-tim.com/muse-ant-design-dashboard/#/tables?ref=readme-madd)
+-   [Billing](https://demos.creative-tim.com/muse-ant-design-dashboard/#/billing?ref=readme-madd)
+-   [RTL](https://demos.creative-tim.com/muse-ant-design-dashboard/#/rtl?ref=readme-madd)
+-   [Profile](https://demos.creative-tim.com/muse-ant-design-dashboard/#/profile?ref=readme-madd)
+-   [Sign In](https://demos.creative-tim.com/muse-ant-design-dashboard/#/sign-in?ref=readme-madd)
+-   [Sign Up](https://demos.creative-tim.com/muse-ant-design-dashboard/#/sign-up?ref=readme-madd)
 
 ## Quick start
 
 Quick start options:
 
-- Download from [Creative Tim](https://www.creative-tim.com/product/muse-ant-design-dashboard?ref=readme-madd).
+-   Download from [Creative Tim](https://www.creative-tim.com/product/muse-ant-design-dashboard?ref=readme-madd).
 
 ## Terminal Commands
 
@@ -96,12 +96,12 @@ At present, we officially aim to support the last two versions of the following 
 
 ## Resources
 
-- [Live Preview](https://demos.creative-tim.com/muse-ant-design-dashboard/#/?ref=readme-madd)
-- [Download Page](https://www.creative-tim.com/product/material-tailwind-dashboard-react?ref=readme-madd)
-- Documentation is [here](https://material-tailwind.com/documentation/quick-start?ref=readme-madd)
-- [License Agreement](https://www.creative-tim.com/license?ref=readme-madd)
-- [Support](https://www.creative-tim.com/contact-us?ref=readme-madd)
-- Issues: [Github Issues Page](https://github.com/creativetimofficial/muse-ant-design-dashboard/issues)
+-   [Live Preview](https://demos.creative-tim.com/muse-ant-design-dashboard/#/?ref=readme-madd)
+-   [Download Page](https://www.creative-tim.com/product/material-tailwind-dashboard-react?ref=readme-madd)
+-   Documentation is [here](https://material-tailwind.com/documentation/quick-start?ref=readme-madd)
+-   [License Agreement](https://www.creative-tim.com/license?ref=readme-madd)
+-   [Support](https://www.creative-tim.com/contact-us?ref=readme-madd)
+-   Issues: [Github Issues Page](https://github.com/creativetimofficial/muse-ant-design-dashboard/issues)
 
 ## Reporting Issues
 
@@ -117,18 +117,18 @@ If you have questions or need help integrating the product please [contact us](h
 
 ## Licensing
 
-- Copyright 2021 [Creative Tim](https://www.creative-tim.com?ref=readme-madd)
-- Creative Tim [license](https://www.creative-tim.com/license?ref=readme-madd)
+-   Copyright 2021 [Creative Tim](https://www.creative-tim.com?ref=readme-madd)
+-   Creative Tim [license](https://www.creative-tim.com/license?ref=readme-madd)
 
 ## Useful Links
 
-- [More products](https://www.creative-tim.com/templates?ref=readme-madd) from Creative Tim
+-   [More products](https://www.creative-tim.com/templates?ref=readme-madd) from Creative Tim
 
-- [Tutorials](https://www.youtube.com/channel/UCVyTG4sCw-rOvB9oHkzZD1w)
+-   [Tutorials](https://www.youtube.com/channel/UCVyTG4sCw-rOvB9oHkzZD1w)
 
-- [Freebies](https://www.creative-tim.com/templates/free?ref=readme-madd) from Creative Tim
+-   [Freebies](https://www.creative-tim.com/templates/free?ref=readme-madd) from Creative Tim
 
-- [Affiliate Program](https://www.creative-tim.com/affiliates/new?ref=readme-madd) (earn money)
+-   [Affiliate Program](https://www.creative-tim.com/affiliates/new?ref=readme-madd) (earn money)
 
 ##### Social Media
 

@@ -1,70 +1,64 @@
-import {
-    Button,
-    Form,
-    Input,
-    Select,
-} from 'antd';
-import {useState} from "react";
-import {Option} from "antd/lib/mentions";
+import { Button, Form, Input, Select } from 'antd';
+import { useState } from 'react';
+import { Option } from 'antd/lib/mentions';
 
 const AddUser = () => {
-
     const faculties = [
         {
             value: -1,
-            label: "ALL"
+            label: 'ALL',
         },
         {
             value: 1,
-            label: "Khoa CNTT"
+            label: 'Khoa CNTT',
         },
         {
             value: 2,
-            label: "Khoa cơ khí"
+            label: 'Khoa cơ khí',
         },
         {
             value: 3,
-            label: "Khoa QLDA"
-        }
-    ]
+            label: 'Khoa QLDA',
+        },
+    ];
 
     const clazz = [
         {
             value: -1,
             facultyId: -1,
-            label: "ALL"
+            label: 'ALL',
         },
         {
             value: 1,
             facultyId: 1,
-            label: "19TCLC_Nhat2"
+            label: '19TCLC_Nhat2',
         },
         {
             value: 2,
             facultyId: 1,
-            label: "19TCLC_Nhat1"
+            label: '19TCLC_Nhat1',
         },
         {
             value: 3,
             facultyId: 2,
-            label: "19_CK1"
+            label: '19_CK1',
         },
         {
             value: 4,
             facultyId: 2,
-            label: "19_CK2"
+            label: '19_CK2',
         },
-    ]
+    ];
 
-    const [faculty, setFaculty] = useState()
+    const [faculty, setFaculty] = useState();
 
     const handleChangeFaculty = (value) => {
-        setFaculty(value)
-    }
+        setFaculty(value);
+    };
 
     const handleFinish = (userData) => {
-        console.log(userData)
-    }
+        console.log(userData);
+    };
 
     const prefixSelector = (
         <Form.Item name="prefix" noStyle initialValue={84}>
@@ -89,12 +83,11 @@ const AddUser = () => {
                     span: 14,
                 }}
                 layout="horizontal"
-
                 style={{
                     maxWidth: 600,
                 }}
             >
-                <Form.Item label="Select" name='faculty'>
+                <Form.Item label="Select" name="faculty">
                     <Select
                         options={faculties}
                         showSearch
@@ -104,22 +97,20 @@ const AddUser = () => {
                         filterOption={(input, option) =>
                             (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                         }
-                    >
-                    </Select>
+                    ></Select>
                 </Form.Item>
                 <Form.Item label="Select" name={'clazz'}>
                     <Select
-                        options={clazz.filter(c => c.facultyId === faculty)}
+                        options={clazz.filter((c) => c.facultyId === faculty)}
                         showSearch
                         optionFilterProp="children"
                         placeholder="Chọn lớp"
                         filterOption={(input, option) =>
                             (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                         }
-                    >
-                    </Select>
+                    ></Select>
                 </Form.Item>
-                <Form.Item label="Tên đăng nhập" name='username'>
+                <Form.Item label="Tên đăng nhập" name="username">
                     <Input />
                 </Form.Item>
                 <Form.Item label="Mật khẩu" name={'password'}>
@@ -128,10 +119,10 @@ const AddUser = () => {
                 <Form.Item label="MSSV" name={'studentId'}>
                     <Input />
                 </Form.Item>
-                <Form.Item label="Tên" name='fullName'>
+                <Form.Item label="Tên" name="fullName">
                     <Input />
                 </Form.Item>
-                <Form.Item label="Email" name='email'>
+                <Form.Item label="Email" name="email">
                     <Input />
                 </Form.Item>
                 <Form.Item
@@ -158,10 +149,11 @@ const AddUser = () => {
                 {/*        </div>*/}
                 {/*    </Upload>*/}
                 {/*</Form.Item>*/}
-                <Form.Item wrapperCol={{span: 14, offset : 4}}>
-                    <Button type='primary' htmlType='submit'>Lưu lại</Button>
+                <Form.Item wrapperCol={{ span: 14, offset: 4 }}>
+                    <Button type="primary" htmlType="submit">
+                        Lưu lại
+                    </Button>
                 </Form.Item>
-
             </Form>
         </>
     );

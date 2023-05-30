@@ -1,13 +1,13 @@
-import { Button, Select, Table } from "antd";
-import "./style.css";
-import Title from "antd/es/typography/Title";
-import { useEffect, useState } from "react";
-import styled from "styled-components";
-import { useHistory } from "react-router-dom";
-import { getFaculties } from "../../services/facultyService";
-import { convertOptions, getSearchParameters } from "../../utils/helper";
-import { getClasses } from "../../services/classService";
-import { getUsers } from "../../services/userService";
+import { Button, Select, Table } from 'antd';
+import './style.css';
+import Title from 'antd/es/typography/Title';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
+import { getFaculties } from '../../services/facultyService';
+import { convertOptions, getSearchParameters } from '../../utils/helper';
+import { getClasses } from '../../services/classService';
+import { getUsers } from '../../services/userService';
 
 const StyleUser = styled.div`
     .user-filter-group {
@@ -30,21 +30,12 @@ const User = () => {
 
     useEffect(() => {
         getFaculties().then((data) => {
-            const options = convertOptions(
-                data?.data?.items,
-                "facultyId",
-                "facultyName"
-            );
+            const options = convertOptions(data?.data?.items, 'facultyId', 'facultyName');
             setFacultyOptions(options);
         });
 
         getClasses().then((data) => {
-            const options = convertOptions(
-                data?.items,
-                "classId",
-                "className",
-                "facultyId"
-            );
+            const options = convertOptions(data?.items, 'classId', 'className', 'facultyId');
             setClassOptions(options);
         });
     }, []);
@@ -64,41 +55,38 @@ const User = () => {
 
     const columns = [
         {
-            title: "MSSV",
-            dataIndex: "studentId",
-            key: "studentId",
+            title: 'MSSV',
+            dataIndex: 'studentId',
+            key: 'studentId',
         },
         {
-            title: "Tên đăng nhập",
-            dataIndex: "username",
-            key: "username",
+            title: 'Tên đăng nhập',
+            dataIndex: 'username',
+            key: 'username',
         },
         {
-            title: "Tên",
-            dataIndex: "fullName",
-            key: "fullName",
+            title: 'Tên',
+            dataIndex: 'fullName',
+            key: 'fullName',
         },
         {
-            title: "Lớp",
-            dataIndex: "className",
-            key: "className",
+            title: 'Lớp',
+            dataIndex: 'className',
+            key: 'className',
         },
         {
-            title: "Điểm",
-            dataIndex: "score",
-            key: "score",
+            title: 'Điểm',
+            dataIndex: 'score',
+            key: 'score',
         },
         {
-            title: "Hành động",
-            dataIndex: "action",
-            key: "action",
+            title: 'Hành động',
+            dataIndex: 'action',
+            key: 'action',
             render: (_, record) => {
                 return (
                     <>
-                        <Button
-                            type={"primary"}
-                            className={"button-primary-user-table"}
-                        >
+                        <Button type={'primary'} className={'button-primary-user-table'}>
                             Chỉnh sửa
                         </Button>
                         <Button danger>Xóa</Button>
@@ -129,9 +117,7 @@ const User = () => {
                     onChange={handleChange}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
-                        (option?.label ?? "")
-                            .toLowerCase()
-                            .includes(input.toLowerCase())
+                        (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                     }
                     options={facultyOptions}
                 />
@@ -144,28 +130,20 @@ const User = () => {
                     onChange={handleChangeClass}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
-                        (option?.label ?? "")
-                            .toLowerCase()
-                            .includes(input.toLowerCase())
+                        (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                     }
-                    options={
-                        classOptions?.filter((e) => e.facultyId === faculty) ||
-                        []
-                    }
+                    options={classOptions?.filter((e) => e.facultyId === faculty) || []}
                 />
             </div>
             <div className="user-action-group">
                 <Button
-                    type={"primary"}
-                    style={{ marginBottom: "10px" }}
-                    onClick={(e) => history.push("add-user")}
+                    type={'primary'}
+                    style={{ marginBottom: '10px' }}
+                    onClick={(e) => history.push('add-user')}
                 >
                     Thêm sinh viên
                 </Button>
-                <Table
-                    dataSource={userData?.items || []}
-                    columns={columns}
-                ></Table>
+                <Table dataSource={userData?.items || []} columns={columns}></Table>
             </div>
         </StyleUser>
     );
