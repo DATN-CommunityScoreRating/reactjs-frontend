@@ -104,6 +104,15 @@ const User = () => {
         setFaculty(value);
     };
 
+    const handleFilter = () => {
+        getUsers({
+            classId: clazz1,
+            facultyId: faculty
+        }).then((data) => {
+            setUserData(data);
+        });
+    }
+
     return (
         <StyleUser>
             <Title level={3}>Quản lý sinh viên</Title>
@@ -111,7 +120,7 @@ const User = () => {
                 <Select
                     className="select-element"
                     showSearch
-                    style={{ width: 160 }}
+                    style={{ width: 240 }}
                     value={faculty}
                     placeholder={`Chọn khoa`}
                     onChange={handleChange}
@@ -134,6 +143,7 @@ const User = () => {
                     }
                     options={classOptions?.filter((e) => e.facultyId === faculty) || []}
                 />
+                <Button type={"primary"} style={{width:"60px"}} onClick={handleFilter}>Lọc</Button>
             </div>
             <div className="user-action-group">
                 <Button
