@@ -23,8 +23,14 @@ instance.interceptors.response.use(
     (response) => {
         return response;
     },
-    function (error) {
-        if (error && error.response.status === 401) window.location.href = '/login';
+    (error) => {
+        if (error) {
+            const status = error.response.status;
+            if (status === 401 || status === 403) {
+                localStorage.removeItem('user');
+                window.location.href = '/login';
+            }
+        }
     }
 );
 
