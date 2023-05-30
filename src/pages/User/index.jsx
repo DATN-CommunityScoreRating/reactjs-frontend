@@ -33,12 +33,12 @@ const User = () => {
             const options = convertOptions(data?.data?.items, 'facultyId', 'facultyName');
             setFacultyOptions(options);
         });
-
         getClasses().then((data) => {
             const options = convertOptions(data?.items, 'classId', 'className', 'facultyId');
             setClassOptions(options);
         });
     }, []);
+
 
     useEffect(() => {
         if ((classId !== 0 && classIdParam) || !classIdParam) {
@@ -102,6 +102,12 @@ const User = () => {
 
     const handleChange = (value) => {
         setFaculty(value);
+        getClasses({
+            facultyId: value
+        }).then((data) => {
+            const options = convertOptions(data?.items, 'classId', 'className', 'facultyId');
+            setClassOptions(options);
+        });
     };
 
     const handleFilter = () => {
