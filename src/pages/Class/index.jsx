@@ -16,9 +16,10 @@ const ActionStyle = styled.div`
 const ManageClass = () => {
     const history = useHistory();
     const [faculties, setFaculties] = useState();
-    const [classData, setClassData] = useState();
+    const [classData, setClassData] = useState([]);
     const [courseOptions, setCourseOptions] = useState();
-    const [course, setCourse] = useState();
+    const [courseSelected, setCourseSelected] = useState();
+    const [facultySelected, setFacultySelected] = useState();
 
     useEffect(() => {
         getFaculties().then((data) => {
@@ -27,7 +28,15 @@ const ManageClass = () => {
         });
 
         getClasses().then((data) => {
-            setClassData(data);
+            setClassData(data?.items.map(({classId, className, facultyId, courseName, facultyName}) => (
+                {
+                    classId,
+                    className,
+                    facultyId,
+                    course: courseName,
+                    faculty: facultyName
+                }
+            )));
         });
         getCourses().then((data) => {
             const options = convertOptions(data?.items, 'courseId', 'courseName');
@@ -58,7 +67,7 @@ const ManageClass = () => {
             render: (_, record) => {
                 return (
                     <ActionStyle>
-                        <Button onClick={() => history.push(`users?classId=${record.classId}`)}>
+                        <Button onClick={() => history.push(`users?classId=${record.classId}&facultyId=${record.facultyId}`)}>
                             Xem sinh viên
                         </Button>
                         <Button type={'primary'}>Cập nhật lớp</Button>
@@ -70,12 +79,40 @@ const ManageClass = () => {
             },
         },
     ];
+
+    const handleChangeFaculty = (value) => {
+        setFacultySelected(value);
+    }
+
+    const handleChangeCourse = (value) => {
+        setCourseSelected(value)
+    }
+
+    const handleFilter = () => {
+        getClasses({
+            facultyId: facultySelected,
+            courseId: courseSelected
+        }).then((data) => {
+            setClassData(data?.items.map(({classId, className, facultyId, courseName, facultyName}) => (
+                {
+                    classId,
+                    className,
+                    facultyId,
+                    course: courseName,
+                    faculty: facultyName
+                }
+            )));
+        });
+    }
+
     return (
         <Space className={'manage-class'} direction={'vertical'} style={{ width: '100%' }}>
             <Space>
                 <Select
                     showSearch
-                    style={{ width: 160 }}
+                    style={{ width: 240 }}
+                    value={facultySelected}
+                    onChange={handleChangeFaculty}
                     placeholder="Chọn khoa"
                     optionFilterProp="children"
                     filterOption={(input, option) =>
@@ -87,16 +124,18 @@ const ManageClass = () => {
                     showSearch
                     style={{ width: 160 }}
                     placeholder="Chọn khóa"
+                    value={courseSelected}
+                    onChange={handleChangeCourse}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
                         (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                     }
                     options={courseOptions}
                 />
-                <button className={'filter-button'}>Lọc</button>
+                <Button type={"primary"} style={{width:"60px"}} onClick={handleFilter}>Lọc</Button>
             </Space>
             <Button type={'primary'}>Thêm lớp</Button>
-            <Table dataSource={classData?.items || []} columns={columns} />
+            <Table dataSource={classData} columns={columns} />
         </Space>
     );
 };
