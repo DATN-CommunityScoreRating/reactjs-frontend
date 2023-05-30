@@ -1,10 +1,10 @@
-import { get } from "../utils/request";
+import { get } from '../utils/request';
 
 export const getClasses = async () => {
     try {
-        const response = await get("classes");
+        const response = await get('classes');
         return response.data;
     } catch (e) {
-        return e.response.data
+        return e.response.data;
     }
-}
+};
