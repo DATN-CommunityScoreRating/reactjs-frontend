@@ -2,6 +2,7 @@ import { Button, Menu } from 'antd';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
 import { LogoutOutlined } from '@ant-design/icons';
+import SITE_MAP from '../../constants/path';
 
 function Sidenav({ color }) {
     const history = useHistory();
@@ -115,7 +116,7 @@ function Sidenav({ color }) {
             <hr />
             <Menu theme="light" mode="inline">
                 <Menu.Item key="1">
-                    <NavLink to="/users">
+                    <NavLink to={SITE_MAP.MANAGER_USER.LIST}>
                         <span
                             className="icon"
                             style={{
@@ -128,7 +129,7 @@ function Sidenav({ color }) {
                     </NavLink>
                 </Menu.Item>
                 <Menu.Item key="2">
-                    <NavLink to="/tables">
+                    <NavLink to={SITE_MAP.MANAGER_ACTIVITY.LIST}>
                         <span
                             className="icon"
                             style={{
