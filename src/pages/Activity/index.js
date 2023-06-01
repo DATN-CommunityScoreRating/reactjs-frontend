@@ -89,14 +89,13 @@ const columns = [
         render: (participantNumber) => {
             let percent = participantNumber/maxScore * 100;
             let status = 'active';
+
             if (percent < 50){
                 status = 'exception'
             } else if (percent === 100){
                 status = 'success'
             }
-            if (percent < 50){
 
-            }
             return (
                 <>
                     <Progress percent={percent} size={"small"} showInfo={false} status={status}/>
