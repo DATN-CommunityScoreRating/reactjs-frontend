@@ -9,6 +9,10 @@ const SITE_MAP = {
         CREATE: 'add-user',
     },
     PROFILE: '/profile',
+    MANAGER_ACTIVITY: {
+        LIST: '/activities',
+        CREATE: '/add-activity',
+    },
 };
 
 export default SITE_MAP;
