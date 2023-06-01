@@ -33,12 +33,12 @@ const User = () => {
             const options = convertOptions(data?.data?.items, 'facultyId', 'facultyName');
             setFacultyOptions(options);
         });
-
         getClasses().then((data) => {
             const options = convertOptions(data?.items, 'classId', 'className', 'facultyId');
             setClassOptions(options);
         });
     }, []);
+
 
     useEffect(() => {
         if ((classId !== 0 && classIdParam) || !classIdParam) {
@@ -102,7 +102,22 @@ const User = () => {
 
     const handleChange = (value) => {
         setFaculty(value);
+        getClasses({
+            facultyId: value
+        }).then((data) => {
+            const options = convertOptions(data?.items, 'classId', 'className', 'facultyId');
+            setClassOptions(options);
+        });
     };
+
+    const handleFilter = () => {
+        getUsers({
+            classId: clazz1,
+            facultyId: faculty
+        }).then((data) => {
+            setUserData(data);
+        });
+    }
 
     return (
         <StyleUser>
@@ -111,7 +126,7 @@ const User = () => {
                 <Select
                     className="select-element"
                     showSearch
-                    style={{ width: 160 }}
+                    style={{ width: 240 }}
                     value={faculty}
                     placeholder={`Chọn khoa`}
                     onChange={handleChange}
@@ -134,6 +149,7 @@ const User = () => {
                     }
                     options={classOptions?.filter((e) => e.facultyId === faculty) || []}
                 />
+                <Button type={"primary"} style={{width:"60px"}} onClick={handleFilter}>Lọc</Button>
             </div>
             <div className="user-action-group">
                 <Button
