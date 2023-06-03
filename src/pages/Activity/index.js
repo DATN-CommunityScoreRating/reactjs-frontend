@@ -9,6 +9,9 @@ import {
     SyncOutlined
 } from "@ant-design/icons";
 import './style.css'
+import {useEffect, useState} from "react";
+import {getListActivity} from "../../services/activityService";
+import ACTIVITY_STATUS from "../../constants/ativityStatus";
 
 const { Title } = Typography;
 
@@ -17,19 +20,19 @@ const maxScore = 50;
 const columns = [
     {
         title: 'Hoạt động',
-        dataIndex: 'activityName',
+        dataIndex: 'name',
         key: 'activityName',
-        render: (activityName) => (
+        render: (name) => (
             <Link className={'activity-title'} to={"#"}>
-                {activityName}
+                {name}
             </Link>
         ),
         width: '240px'
     },
     {
         title: 'Tổ chức',
-        dataIndex: 'organizationName',
-        key: 'organizationName',
+        dataIndex: 'organization',
+        key: 'organization',
     },
 
     {
@@ -38,25 +41,30 @@ const columns = [
         dataIndex: 'status',
         render: (status) => {
             let icon = <SyncOutlined spin/>
-                let color = 'green';
-            if (status.key === 'EXPIRED'){
+            let color = 'green';
+            let message = ""
+            if (status === ACTIVITY_STATUS.EXPIRED.status){
                 color = 'volcano';
                 icon = <CloseCircleOutlined />
+                message = ACTIVITY_STATUS.EXPIRED.message;
             }
-            if (status.key === 'ACTIVE'){
+            if (status === ACTIVITY_STATUS.ACTIVE.status){
                 color = 'green'
                 icon = <SyncOutlined spin />
+                message = ACTIVITY_STATUS.ACTIVE.message;
             }
-            if (status.key === 'DONE'){
+            if (status === ACTIVITY_STATUS.FULLY.status){
                 color = 'success'
                 icon = <CheckCircleOutlined />
+                message = ACTIVITY_STATUS.FULLY.message;
             }
-            if (status.key === 'PENDING'){
+            if (status === ACTIVITY_STATUS.PENDING.status){
                 color = 'warning'
                 icon = <ClockCircleOutlined  />
+                message = ACTIVITY_STATUS.PENDING.message;
             }
             return (
-                <Tag icon={icon} color={color}>{status.name}</Tag>
+                <Tag icon={icon} color={color}>{message}</Tag>
             )
         }
     },
@@ -77,10 +85,10 @@ const columns = [
     },
     {
         title: 'Số lượng tham gia',
-        key: 'participantNumber',
-        dataIndex: 'participantNumber',
-        render: (participantNumber) => {
-            let percent = participantNumber/maxScore * 100;
+        key: 'totalParticipant',
+        dataIndex: 'totalParticipant',
+        render: (totalParticipant, record) => {
+            let percent = totalParticipant/maxScore * 100;
             let status = 'active';
 
             if (percent < 50){
@@ -92,7 +100,7 @@ const columns = [
             return (
                 <>
                     <Progress percent={percent} size={"small"} showInfo={false} status={status}/>
-                    <Title level={5} style={{textAlign: 'center'}} >{`${participantNumber}/${maxScore}`}</Title>
+                    <Title level={5} style={{textAlign: 'center'}} >{`${totalParticipant}/${record.maxQuantity}`}</Title>
                 </>
 
             )
@@ -103,100 +111,24 @@ const columns = [
         key: 'action',
         dataIndex: 'action',
         render: (_, {status}) => (
-            <Button type={"primary"} disabled={status.key !== 'ACTIVE'}>Đăng ký</Button>
+            <Button type={"primary"} disabled={status !== 'ACTIVE'}>Đăng ký</Button>
         )
     },
 ];
 
-const data = [
-    {
-        key: 1,
-        activityName: 'Mùa hè xanh',
-        organizationName: "Đại học Đà Nẵng",
-        status: {
-            key: "ACTIVE",
-            name: "Mở đăng ký"
-        },
-        startDate: '5/10/2023',
-        endDate: "8/10/2023",
-        score: 30,
-        participantNumber: 40,
-
-    },
-    {
-        key: 2,
-        activityName: 'Hiến máu nhân đạo',
-        organizationName: "Đại học Bách Khoa",
-        status: {
-            key: "EXPIRED",
-            name: "Hết hạn"
-        },
-        startDate: '20/10/2023',
-        endDate: "21/10/2023",
-        score: 30,
-        participantNumber: 48,
-
-    },
-    {
-        key: 3,
-        activityName: 'Dev day',
-        organizationName: "Đại học Bách Khoa",
-        status: {
-            key: "DONE",
-            name: "Đủ số lượng"
-        },
-        startDate: '20/10/2023',
-        endDate: "21/10/2023",
-        score: 30,
-        participantNumber: 50,
-
-    },
-    {
-        key: 4,
-        activityName: 'Làm sạch môi trường',
-        organizationName: "Khoa Hóa",
-        status: {
-            key: "PENDING",
-            name: "Chờ"
-        },
-        startDate: '24/10/2023',
-        endDate: "26/10/2023",
-        score: 20,
-        participantNumber: 0,
-
-    },
-    {
-        key: 5,
-        activityName: 'Xuân yêu thương',
-        organizationName: "Khoa CNTT",
-        status: {
-            key: "ACTIVE",
-            name: "Mở đăng ký"
-        },
-        startDate: '24/10/2023',
-        endDate: "26/10/2023",
-        score: 30,
-        participantNumber: 36,
-
-    },
-    {
-        key: 5,
-        activityName: 'ESport Support',
-        organizationName: "Khoa FAST",
-        status: {
-            key: "ACTIVE",
-            name: "Mở đăng ký"
-        },
-        startDate: '28/10/2023',
-        endDate: "30/10/2023",
-        score: 20,
-        participantNumber: 10,
-
-    }
-]
-
 function Activity() {
     const history = useHistory();
+
+    const [listActivity, setListActivity] = useState([])
+
+    useEffect(() => {
+        getListActivity().then((data) => {
+            setListActivity(data?.items.map(({facultyId, ...dt}) => ({
+                key: facultyId,
+                ...dt
+            })))
+        })
+    }, [])
     const handleAddActivity = () => {
         history.push(SITE_MAP.MANAGER_ACTIVITY.CREATE);
     };
@@ -218,7 +150,7 @@ function Activity() {
                 <div className="table-responsive">
                     <Table
                         columns={columns}
-                        dataSource={data}
+                        dataSource={listActivity}
                         pagination={false}
                         className="ant-border-space"
                     />
