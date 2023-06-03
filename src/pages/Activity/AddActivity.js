@@ -1,4 +1,4 @@
-import { Card, Col, DatePicker, Input, InputNumber, Row, Select } from 'antd';
+import {Button, Card, Col, DatePicker, Input, InputNumber, Row, Space} from 'antd';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useState } from 'react';
@@ -34,6 +34,12 @@ const FormContainerStyle = styled.div`
             }
         }
     }
+  .button-action {
+    width: 100%;
+    display: flex;
+    margin: 20px 0;
+    justify-content: center;
+  }
 `;
 
 const AddActivity = () => {
@@ -57,25 +63,13 @@ const AddActivity = () => {
         setFormData({ ...formData, [name]: value.format(DATE_FORMAT) });
     };
 
-    const options = [
-        {
-            value: 'jack',
-            label: 'Jack',
-        },
-        {
-            value: 'lucy',
-            label: 'Lucy',
-        },
-    ];
     const elements = [
         {
-            label: 'Chọn danh mục',
+            label: 'Tên hoạt động',
             component: (
-                <Select
-                    className="select-item"
-                    defaultValue="lucy"
-                    onChange={(e) => handleChangeData('category', e)}
-                    options={options}
+                <Input
+                    value={formData.activityName}
+                    onChange={(e) => handleChangeData('activityName', e.target.value)}
                 />
             ),
         },
@@ -92,32 +86,45 @@ const AddActivity = () => {
             ),
         },
         {
-            label: 'Tên hoạt động',
-            component: (
-                <Input
-                    value={formData.activityName}
-                    onChange={(e) => handleChangeData('activityName', e.target.value)}
-                />
-            ),
-        },
-        {
-            label: 'Số lượng tối đa',
-            component: (
-                <InputNumber
-                    min={0}
-                    defaultValue={0}
-                    value={formData.maxQuantity}
-                    onChange={(value) => handleChangeData('maxQuantity', value)}
-                />
-            ),
-        },
-        {
             label: 'Thời gian bắt đầu',
             component: (
                 <DatePicker
                     className="date-item"
                     value={formData.startDate}
                     onChange={(value) => handleChangeDate('startDate', value)}
+                />
+            ),
+            className: 'date-item',
+        },
+        {
+            label: 'Thời gian bắt đầu đăng ký',
+            component: (
+                <DatePicker
+                    className="date-item"
+                    value={formData.endDate}
+                    onChange={(value) => handleChangeDate('endDate', value)}
+                />
+            ),
+            className: 'date-item',
+        },
+        {
+            label: 'Thời gian kết thúc',
+            component: (
+                <DatePicker
+                    className="date-item"
+                    value={formData.endDate}
+                    onChange={(value) => handleChangeDate('endDate', value)}
+                />
+            ),
+            className: 'date-item',
+        },
+        {
+            label: 'Thời gian kết thúc đăng ký',
+            component: (
+                <DatePicker
+                    className="date-item"
+                    value={formData.endDate}
+                    onChange={(value) => handleChangeDate('endDate', value)}
                 />
             ),
             className: 'date-item',
@@ -132,15 +139,15 @@ const AddActivity = () => {
             ),
         },
         {
-            label: 'Thời gian kết thúc',
+            label: 'Số lượng tối đa',
             component: (
-                <DatePicker
-                    className="date-item"
-                    value={formData.endDate}
-                    onChange={(value) => handleChangeDate('endDate', value)}
+                <InputNumber
+                    min={0}
+                    defaultValue={0}
+                    value={formData.maxQuantity}
+                    onChange={(value) => handleChangeData('maxQuantity', value)}
                 />
             ),
-            className: 'date-item',
         },
     ];
 
@@ -170,6 +177,10 @@ const AddActivity = () => {
                         }}
                     />
                 </Card>
+                <Space className="button-action">
+                    <Button type={"primary"}>Lưu lại</Button>
+                    <Button type={"default"}>Cancel</Button>
+                </Space>
             </Card>
         </FormContainerStyle>
     );
