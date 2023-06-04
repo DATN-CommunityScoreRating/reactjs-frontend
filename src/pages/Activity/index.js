@@ -15,8 +15,6 @@ import ACTIVITY_STATUS from "../../constants/ativityStatus";
 
 const { Title } = Typography;
 
-const maxScore = 50;
-
 const columns = [
     {
         title: 'Hoạt động',
@@ -88,7 +86,7 @@ const columns = [
         key: 'totalParticipant',
         dataIndex: 'totalParticipant',
         render: (totalParticipant, record) => {
-            let percent = totalParticipant/maxScore * 100;
+            let percent = totalParticipant/record.maxQuantity * 100;
             let status = 'active';
 
             if (percent < 50){
