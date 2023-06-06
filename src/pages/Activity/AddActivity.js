@@ -1,8 +1,9 @@
-import {Button, Card, Col, DatePicker, Input, InputNumber, Row, Space} from 'antd';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { useState } from 'react';
+import { Button, Card, Col, DatePicker, Input, InputNumber, Row, Space } from 'antd';
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
+import SummernoteLite from 'react-summernote-lite';
+import 'react-summernote-lite/dist/dist/lang/summernote-vi-VN.min';
+
 import { DATE_FORMAT } from '../../utils/date';
 
 const FormContainerStyle = styled.div`
@@ -34,15 +35,17 @@ const FormContainerStyle = styled.div`
             }
         }
     }
-  .button-action {
-    width: 100%;
-    display: flex;
-    margin: 20px 0;
-    justify-content: center;
-  }
+    .button-action {
+        width: 100%;
+        display: flex;
+        margin: 20px 0;
+        justify-content: center;
+    }
 `;
 
 const AddActivity = () => {
+    const noteRef = useRef();
+    console.log('🚀 ~ file: AddActivity.js:48 ~ AddActivity ~ noteRef:', noteRef);
     const [formData, setFormData] = useState({
         category: '',
         score: 0,
@@ -53,7 +56,7 @@ const AddActivity = () => {
         location: '',
         content: '<p></p>',
     });
-    console.log('🚀 ~ file: AddActivity.js:30 ~ AddActivity ~ formData:', formData);
+    console.log('🚀 ~ file: AddActivity.js:30 ~ AddActivity ~ formData:', formData?.content);
 
     const handleChangeData = (name, value) => {
         setFormData({ ...formData, [name]: value });
@@ -168,18 +171,50 @@ const AddActivity = () => {
                     </Row>
                 ))}
                 <Card className="card-content" title="Nội dung hoạt động">
-                    <CKEditor
-                        editor={ClassicEditor}
-                        data={formData.content}
-                        onChange={(event, editor) => {
-                            const data = editor.getData();
-                            handleChangeData('content', data);
+                    <SummernoteLite
+                        ref={noteRef}
+                        defaultCodeValue={''}
+                        placeholder={'Write something here...'}
+                        tabsize={2}
+                        lang="vi-VN"
+                        height={350}
+                        dialogsInBody={true}
+                        blockquoteBreakingLevel={0}
+                        toolbar={[
+                            ['style', ['style']],
+                            [
+                                'font',
+                                [
+                                    'bold',
+                                    'underline',
+                                    'clear',
+                                    'strikethrough',
+                                    // 'superscript',
+                                    // 'subscript',
+                                ],
+                            ],
+                            ['fontsize', ['fontsize']],
+                            ['fontname', ['fontname']],
+                            ['color', ['color']],
+                            ['para', ['ul', 'ol', 'paragraph']],
+                            ['table', ['table']],
+                            ['insert', ['link', 'picture', 'video', 'hr']],
+                            // ['view', ['fullscreen', 'codeview', 'help']],
+                        ]}
+                        fontNames={['Arial', 'Georgia', 'Verdana', 'e.t.c...']}
+                        callbacks={{
+                            onKeyup: function (e) {},
+                            onKeyDown: function (e) {},
+                            onPaste: function (e) {},
+                            onChange: function (e) {
+                                console.log(e);
+                            },
                         }}
                     />
                 </Card>
                 <Space className="button-action">
-                    <Button type={"primary"}>Lưu lại</Button>
-                    <Button type={"default"}>Cancel</Button>
+                    <Button type={'primary'}>Lưu lại</Button>
+                    <Button type={'default'}>Cancel</Button>
                 </Space>
             </Card>
         </FormContainerStyle>

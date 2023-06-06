@@ -1,4 +1,4 @@
-import { Button, Select, Space, Table } from 'antd';
+import { Button, Select, Space } from 'antd';
 import './style.css';
 import { useEffect, useState } from 'react';
 import { getFaculties } from '../../services/facultyService';
@@ -7,6 +7,7 @@ import { getClasses } from '../../services/classService';
 import { getCourses } from '../../services/courseService';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import Table from '../../components/Table';
 
 const ActionStyle = styled.div`
     display: flex;
@@ -28,15 +29,15 @@ const ManageClass = () => {
         });
 
         getClasses().then((data) => {
-            setClassData(data?.items.map(({classId, className, facultyId, courseName, facultyName}) => (
-                {
+            setClassData(
+                data?.items.map(({ classId, className, facultyId, courseName, facultyName }) => ({
                     classId,
                     className,
                     facultyId,
                     course: courseName,
-                    faculty: facultyName
-                }
-            )));
+                    faculty: facultyName,
+                }))
+            );
         });
         getCourses().then((data) => {
             const options = convertOptions(data?.items, 'courseId', 'courseName');
@@ -67,7 +68,13 @@ const ManageClass = () => {
             render: (_, record) => {
                 return (
                     <ActionStyle>
-                        <Button onClick={() => history.push(`users?classId=${record.classId}&facultyId=${record.facultyId}`)}>
+                        <Button
+                            onClick={() =>
+                                history.push(
+                                    `users?classId=${record.classId}&facultyId=${record.facultyId}`
+                                )
+                            }
+                        >
                             Xem sinh viên
                         </Button>
                         <Button type={'primary'}>Cập nhật lớp</Button>
@@ -82,28 +89,28 @@ const ManageClass = () => {
 
     const handleChangeFaculty = (value) => {
         setFacultySelected(value);
-    }
+    };
 
     const handleChangeCourse = (value) => {
-        setCourseSelected(value)
-    }
+        setCourseSelected(value);
+    };
 
     const handleFilter = () => {
         getClasses({
             facultyId: facultySelected,
-            courseId: courseSelected
+            courseId: courseSelected,
         }).then((data) => {
-            setClassData(data?.items.map(({classId, className, facultyId, courseName, facultyName}) => (
-                {
+            setClassData(
+                data?.items.map(({ classId, className, facultyId, courseName, facultyName }) => ({
                     classId,
                     className,
                     facultyId,
                     course: courseName,
-                    faculty: facultyName
-                }
-            )));
+                    faculty: facultyName,
+                }))
+            );
         });
-    }
+    };
 
     return (
         <Space className={'manage-class'} direction={'vertical'} style={{ width: '100%' }}>
@@ -132,7 +139,9 @@ const ManageClass = () => {
                     }
                     options={courseOptions}
                 />
-                <Button type={"primary"} style={{width:"60px"}} onClick={handleFilter}>Lọc</Button>
+                <Button type={'primary'} style={{ width: '60px' }} onClick={handleFilter}>
+                    Lọc
+                </Button>
             </Space>
             <Button type={'primary'}>Thêm lớp</Button>
             <Table dataSource={classData} columns={columns} />
