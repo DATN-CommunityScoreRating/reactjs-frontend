@@ -1,10 +1,14 @@
-import { Button, Card, Col, DatePicker, Input, InputNumber, Row, Space } from 'antd';
-import { useRef, useState } from 'react';
+import {Button, Card, Col, DatePicker, Input, InputNumber, message, Row, Space} from 'antd';
 import styled from 'styled-components';
 import SummernoteLite from 'react-summernote-lite';
 import 'react-summernote-lite/dist/dist/lang/summernote-vi-VN.min';
 
 import { DATE_FORMAT } from '../../utils/date';
+import dayjs from "dayjs";
+import {addActivity} from "../../services/activityService";
+import {useState} from "react";
+import SITE_MAP from "../../constants/path";
+import {useHistory} from "react-router-dom";
 
 const FormContainerStyle = styled.div`
     .row-item {
@@ -44,27 +48,60 @@ const FormContainerStyle = styled.div`
 `;
 
 const AddActivity = () => {
-    const noteRef = useRef();
-    console.log('🚀 ~ file: AddActivity.js:48 ~ AddActivity ~ noteRef:', noteRef);
     const [formData, setFormData] = useState({
-        category: '',
         score: 0,
         activityName: '',
         maxQuantity: 0,
+        startRegister: '',
+        endRegister: '',
         startDate: '',
         endDate: '',
         location: '',
-        content: '<p></p>',
     });
-    console.log('🚀 ~ file: AddActivity.js:30 ~ AddActivity ~ formData:', formData?.content);
+
+    const [description, setDescription] = useState('');
+
+    const history = useHistory();
+
+    const [messageApi, contextHolder] = message.useMessage();
 
     const handleChangeData = (name, value) => {
         setFormData({ ...formData, [name]: value });
     };
 
     const handleChangeDate = (name, value) => {
+        if (value === null){
+            value = dayjs()
+        }
         setFormData({ ...formData, [name]: value.format(DATE_FORMAT) });
     };
+
+    const handleAddActivity = () => {
+         addActivity({
+            ...formData,
+            description
+        }).then(res => {
+             if (res?.success){
+                 messageApi.open({
+                     type: 'success',
+                     content: 'Thêm hoạt động thành công',
+                     duration: 1
+                 }).then(r => {
+                     history.push(SITE_MAP.MANAGER_ACTIVITY.LIST)
+                 })
+
+             } else {
+                 messageApi.open({
+                     type: 'error',
+                     content: 'Có lỗi xảy ra',
+                 });
+             }
+         })
+    }
+
+    const handleCancel = () => {
+
+    }
 
     const elements = [
         {
@@ -80,9 +117,9 @@ const AddActivity = () => {
             label: 'Số điểm',
             component: (
                 <InputNumber
-                    min={0}
-                    max={10}
-                    defaultValue={0}
+                    min={5}
+                    max={30}
+                    defaultValue={5}
                     value={formData.score}
                     onChange={(value) => handleChangeData('score', value)}
                 />
@@ -93,7 +130,7 @@ const AddActivity = () => {
             component: (
                 <DatePicker
                     className="date-item"
-                    value={formData.startDate}
+                    value={formData.startDate === '' ? '' : dayjs(formData.startDate, DATE_FORMAT)}
                     onChange={(value) => handleChangeDate('startDate', value)}
                 />
             ),
@@ -104,8 +141,8 @@ const AddActivity = () => {
             component: (
                 <DatePicker
                     className="date-item"
-                    value={formData.endDate}
-                    onChange={(value) => handleChangeDate('endDate', value)}
+                    value={formData.startRegister === '' ? '' : dayjs(formData.startRegister, DATE_FORMAT)}
+                    onChange={(value) => handleChangeDate('startRegister', value)}
                 />
             ),
             className: 'date-item',
@@ -115,7 +152,7 @@ const AddActivity = () => {
             component: (
                 <DatePicker
                     className="date-item"
-                    value={formData.endDate}
+                    value={formData.endDate === '' ? '' : dayjs(formData.endDate, DATE_FORMAT)}
                     onChange={(value) => handleChangeDate('endDate', value)}
                 />
             ),
@@ -126,8 +163,8 @@ const AddActivity = () => {
             component: (
                 <DatePicker
                     className="date-item"
-                    value={formData.endDate}
-                    onChange={(value) => handleChangeDate('endDate', value)}
+                    value={formData.endRegister === '' ? '' : dayjs(formData.endRegister, DATE_FORMAT)}
+                    onChange={(value) => handleChangeDate('endRegister', value)}
                 />
             ),
             className: 'date-item',
@@ -145,8 +182,8 @@ const AddActivity = () => {
             label: 'Số lượng tối đa',
             component: (
                 <InputNumber
-                    min={0}
-                    defaultValue={0}
+                    min={1}
+                    defaultValue={10000}
                     value={formData.maxQuantity}
                     onChange={(value) => handleChangeData('maxQuantity', value)}
                 />
@@ -156,6 +193,7 @@ const AddActivity = () => {
 
     return (
         <FormContainerStyle>
+            {contextHolder}
             <Card className="mb-24" title="Thêm hoạt động cộng đồng">
                 {elements.map(({ label, component }, index) => (
                     <Row
@@ -172,12 +210,12 @@ const AddActivity = () => {
                 ))}
                 <Card className="card-content" title="Nội dung hoạt động">
                     <SummernoteLite
-                        ref={noteRef}
+
+                        // ref={noteRef}s
                         defaultCodeValue={''}
                         placeholder={'Write something here...'}
                         tabsize={2}
                         lang="vi-VN"
-                        height={350}
                         dialogsInBody={true}
                         blockquoteBreakingLevel={0}
                         toolbar={[
@@ -207,14 +245,15 @@ const AddActivity = () => {
                             onKeyDown: function (e) {},
                             onPaste: function (e) {},
                             onChange: function (e) {
-                                console.log(e);
+                                setDescription(e)
                             },
                         }}
+                        useDiv={false}
                     />
                 </Card>
                 <Space className="button-action">
-                    <Button type={'primary'}>Lưu lại</Button>
-                    <Button type={'default'}>Cancel</Button>
+                    <Button type={'primary'} onClick={handleAddActivity}>Lưu lại</Button>
+                    <Button type={'default'} onClick={handleCancel}>Cancel</Button>
                 </Space>
             </Card>
         </FormContainerStyle>
