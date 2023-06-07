@@ -3,6 +3,11 @@ import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
 import { LogoutOutlined } from '@ant-design/icons';
 import SITE_MAP from '../../constants/path';
+import Authorization, {
+    Roles,
+    TypeRoles,
+    ifNotGranted,
+} from '../../container/authorize/Authorization';
 
 function Sidenav({ color }) {
     const history = useHistory();
@@ -102,17 +107,22 @@ function Sidenav({ color }) {
             <hr />
             <Menu theme="light" mode="inline">
                 <Menu.Item key="1">
-                    <NavLink to={SITE_MAP.MANAGER_USER.LIST}>
-                        <span
-                            className="icon"
-                            style={{
-                                background: page === 'dashboard' ? color : '',
-                            }}
-                        >
-                            {dashboard}
-                        </span>
-                        <span className="label">Quản lý sinh viên</span>
-                    </NavLink>
+                    <Authorization
+                        type={TypeRoles.ifNotGranted}
+                        roles={[Roles.STUDENT, Roles.ADMIN]}
+                    >
+                        <NavLink to={SITE_MAP.MANAGER_USER.LIST}>
+                            <span
+                                className="icon"
+                                style={{
+                                    background: page === 'dashboard' ? color : '',
+                                }}
+                            >
+                                {dashboard}
+                            </span>
+                            <span className="label">Quản lý sinh viên</span>
+                        </NavLink>
+                    </Authorization>
                 </Menu.Item>
                 <Menu.Item key="2">
                     <NavLink to={SITE_MAP.MANAGER_ACTIVITY.LIST}>
