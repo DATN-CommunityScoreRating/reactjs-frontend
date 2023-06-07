@@ -1,11 +1,11 @@
-import {Card, Table, Button, Typography, Tag, Progress} from 'antd';
+import {Card, Table, Button, Typography, Tag, Progress, Dropdown} from 'antd';
 
 import {Link, useHistory} from 'react-router-dom';
 import SITE_MAP from '../../constants/path';
 import {
     CheckCircleOutlined,
     ClockCircleOutlined,
-    CloseCircleOutlined,
+    CloseCircleOutlined, DeleteOutlined, EditOutlined, EllipsisOutlined,
     SyncOutlined
 } from "@ant-design/icons";
 import './style.css'
@@ -13,7 +13,30 @@ import {useEffect, useState} from "react";
 import {getListActivity} from "../../services/activityService";
 import ACTIVITY_STATUS from "../../constants/ativityStatus";
 
+
 const { Title } = Typography;
+
+const items = [
+    {
+        key: '1',
+        label: (
+            <a target="_blank" rel="noopener noreferrer" href="/">
+                Chỉnh sửa
+            </a>
+        ),
+        icon: <EditOutlined />
+    },
+    {
+        key: '2',
+        label: (
+            <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+                Xóa
+            </a>
+        ),
+        icon: <DeleteOutlined />,
+        danger: true,
+    },
+];
 
 const columns = [
     {
@@ -70,16 +93,19 @@ const columns = [
         title: 'Ngày bắt đầu',
         key: 'startDate',
         dataIndex: 'startDate',
+        align: 'center',
     },
     {
         title: 'Ngày kết thúc',
         key: 'endDate',
         dataIndex: 'endDate',
+        align: 'center',
     },
     {
         title: 'Số điểm',
         key: 'score',
         dataIndex: 'score',
+        align: 'center',
     },
     {
         title: 'Số lượng tham gia',
@@ -108,11 +134,26 @@ const columns = [
         title: 'Hành động',
         key: 'action',
         dataIndex: 'action',
+        align: 'center',
         render: (_, {status}) => (
-            <Button type={"primary"} disabled={status !== 'ACTIVE'}>Đăng ký</Button>
+            // ROLE STUDENT BUTTON DANG KY
+            // <Button type={"primary"} disabled={status !== 'ACTIVE'}>Đăng ký</Button>
+            <Dropdown
+                menu={{
+                    items,
+                }}
+                placement="bottom"
+            >
+                <a href='/' target={'_blank'}  onClick={(e) => e.preventDefault()}>
+                    <EllipsisOutlined />
+                </a>
+            </Dropdown>
+
         )
     },
 ];
+
+
 
 function Activity() {
     const history = useHistory();
