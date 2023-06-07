@@ -1,14 +1,13 @@
-import {Button, Card, Col, DatePicker, Input, InputNumber, message, Row, Space} from 'antd';
+import { Button, Card, Col, DatePicker, Input, InputNumber, message, Row, Space } from 'antd';
 import styled from 'styled-components';
-import SummernoteLite from 'react-summernote-lite';
-import 'react-summernote-lite/dist/dist/lang/summernote-vi-VN.min';
 
 import { DATE_FORMAT } from '../../utils/date';
-import dayjs from "dayjs";
-import {addActivity} from "../../services/activityService";
-import {useState} from "react";
-import SITE_MAP from "../../constants/path";
-import {useHistory} from "react-router-dom";
+import dayjs from 'dayjs';
+import { addActivity } from '../../services/activityService';
+import { useState } from 'react';
+import SITE_MAP from '../../constants/path';
+import { useHistory } from 'react-router-dom';
+import Editor from '../../components/Editor';
 
 const FormContainerStyle = styled.div`
     .row-item {
@@ -70,38 +69,37 @@ const AddActivity = () => {
     };
 
     const handleChangeDate = (name, value) => {
-        if (value === null){
-            value = dayjs()
+        if (value === null) {
+            value = dayjs();
         }
         setFormData({ ...formData, [name]: value.format(DATE_FORMAT) });
     };
 
     const handleAddActivity = () => {
-         addActivity({
+        addActivity({
             ...formData,
-            description
-        }).then(res => {
-             if (res?.success){
-                 messageApi.open({
-                     type: 'success',
-                     content: 'Thêm hoạt động thành công',
-                     duration: 1
-                 }).then(r => {
-                     history.push(SITE_MAP.MANAGER_ACTIVITY.LIST)
-                 })
+            description,
+        }).then((res) => {
+            if (res?.success) {
+                messageApi
+                    .open({
+                        type: 'success',
+                        content: 'Thêm hoạt động thành công',
+                        duration: 1,
+                    })
+                    .then((r) => {
+                        history.push(SITE_MAP.MANAGER_ACTIVITY.LIST);
+                    });
+            } else {
+                messageApi.open({
+                    type: 'error',
+                    content: 'Có lỗi xảy ra',
+                });
+            }
+        });
+    };
 
-             } else {
-                 messageApi.open({
-                     type: 'error',
-                     content: 'Có lỗi xảy ra',
-                 });
-             }
-         })
-    }
-
-    const handleCancel = () => {
-
-    }
+    const handleCancel = () => {};
 
     const elements = [
         {
@@ -141,7 +139,11 @@ const AddActivity = () => {
             component: (
                 <DatePicker
                     className="date-item"
-                    value={formData.startRegister === '' ? '' : dayjs(formData.startRegister, DATE_FORMAT)}
+                    value={
+                        formData.startRegister === ''
+                            ? ''
+                            : dayjs(formData.startRegister, DATE_FORMAT)
+                    }
                     onChange={(value) => handleChangeDate('startRegister', value)}
                 />
             ),
@@ -163,7 +165,9 @@ const AddActivity = () => {
             component: (
                 <DatePicker
                     className="date-item"
-                    value={formData.endRegister === '' ? '' : dayjs(formData.endRegister, DATE_FORMAT)}
+                    value={
+                        formData.endRegister === '' ? '' : dayjs(formData.endRegister, DATE_FORMAT)
+                    }
                     onChange={(value) => handleChangeDate('endRegister', value)}
                 />
             ),
@@ -209,51 +213,15 @@ const AddActivity = () => {
                     </Row>
                 ))}
                 <Card className="card-content" title="Nội dung hoạt động">
-                    <SummernoteLite
-
-                        // ref={noteRef}s
-                        defaultCodeValue={''}
-                        placeholder={'Write something here...'}
-                        tabsize={2}
-                        lang="vi-VN"
-                        dialogsInBody={true}
-                        blockquoteBreakingLevel={0}
-                        toolbar={[
-                            ['style', ['style']],
-                            [
-                                'font',
-                                [
-                                    'bold',
-                                    'underline',
-                                    'clear',
-                                    'strikethrough',
-                                    // 'superscript',
-                                    // 'subscript',
-                                ],
-                            ],
-                            ['fontsize', ['fontsize']],
-                            ['fontname', ['fontname']],
-                            ['color', ['color']],
-                            ['para', ['ul', 'ol', 'paragraph']],
-                            ['table', ['table']],
-                            ['insert', ['link', 'picture', 'video', 'hr']],
-                            // ['view', ['fullscreen', 'codeview', 'help']],
-                        ]}
-                        fontNames={['Arial', 'Georgia', 'Verdana', 'e.t.c...']}
-                        callbacks={{
-                            onKeyup: function (e) {},
-                            onKeyDown: function (e) {},
-                            onPaste: function (e) {},
-                            onChange: function (e) {
-                                setDescription(e)
-                            },
-                        }}
-                        useDiv={false}
-                    />
+                    <Editor onChange={setDescription} />
                 </Card>
                 <Space className="button-action">
-                    <Button type={'primary'} onClick={handleAddActivity}>Lưu lại</Button>
-                    <Button type={'default'} onClick={handleCancel}>Cancel</Button>
+                    <Button type={'primary'} onClick={handleAddActivity}>
+                        Lưu lại
+                    </Button>
+                    <Button type={'default'} onClick={handleCancel}>
+                        Cancel
+                    </Button>
                 </Space>
             </Card>
         </FormContainerStyle>
