@@ -37,6 +37,9 @@ const FormContainerStyle = styled.div`
                 min-height: 300px;
             }
         }
+        .content-editor {
+            text-align: left;
+        }
     }
     .button-action {
         width: 100%;
@@ -213,7 +216,9 @@ const AddActivity = () => {
                     </Row>
                 ))}
                 <Card className="card-content" title="Nội dung hoạt động">
-                    <Editor onChange={setDescription} />
+                    <div className={'content-editor'}>
+                        <Editor onChange={setDescription} />
+                    </div>
                 </Card>
                 <Space className="button-action">
                     <Button type={'primary'} onClick={handleAddActivity}>

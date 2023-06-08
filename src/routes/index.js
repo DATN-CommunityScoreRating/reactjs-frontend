@@ -10,6 +10,8 @@ import SITE_MAP from '../constants/path';
 import ProtectedRouter from './ProtectedRouter';
 import Activity from '../pages/Activity';
 import AddActivity from '../pages/Activity/AddActivity';
+import ActivityUser from "../pages/Activity/AcvityUser";
+import ActivityDetail from "../pages/Activity/ActivityDetail";
 
 const MainRouter = () => {
     return (
@@ -22,6 +24,8 @@ const MainRouter = () => {
             <ProtectedRouter exact path={SITE_MAP.MANAGER_USER.CREATE} component={AddUser} />
 
             <ProtectedRouter exact path={SITE_MAP.MANAGER_ACTIVITY.LIST} component={Activity} />
+            <ProtectedRouter exact path={SITE_MAP.MANAGER_ACTIVITY.USER} component={ActivityUser} />
+            <ProtectedRouter exact path={SITE_MAP.MANAGER_ACTIVITY.DETAIL} component={ActivityDetail} />
             <ProtectedRouter
                 exact
                 path={SITE_MAP.MANAGER_ACTIVITY.CREATE}
