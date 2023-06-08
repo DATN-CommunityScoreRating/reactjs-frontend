@@ -20,7 +20,7 @@ const items = [
     {
         key: '1',
         label: (
-            <a target={"_blank"} href={'/'} >
+            <a target={"_blank"} rel="noopener noreferrer" href={'/'} >
                 Xem sinh viên đã đăng ký
             </a>
         ),
