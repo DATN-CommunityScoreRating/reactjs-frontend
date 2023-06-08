@@ -143,7 +143,6 @@ const ManageClass = () => {
                     Lọc
                 </Button>
             </Space>
-            <Button type={'primary'}>Thêm lớp</Button>
             <Table dataSource={classData} columns={columns} />
         </Space>
     );
