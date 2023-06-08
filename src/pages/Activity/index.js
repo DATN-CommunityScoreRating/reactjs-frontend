@@ -6,7 +6,7 @@ import {
     CheckCircleOutlined,
     ClockCircleOutlined,
     CloseCircleOutlined, DeleteOutlined, EditOutlined, EllipsisOutlined,
-    SyncOutlined
+    SyncOutlined, TeamOutlined
 } from "@ant-design/icons";
 import './style.css'
 import {useEffect, useState} from "react";
@@ -20,6 +20,15 @@ const items = [
     {
         key: '1',
         label: (
+            <a target={"_blank"} href={'/'} >
+                Xem sinh viên đã đăng ký
+            </a>
+        ),
+        icon: <TeamOutlined />
+    },
+    {
+        key: '2',
+        label: (
             <a target="_blank" rel="noopener noreferrer" href="/">
                 Chỉnh sửa
             </a>
@@ -27,7 +36,7 @@ const items = [
         icon: <EditOutlined />
     },
     {
-        key: '2',
+        key: '3',
         label: (
             <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
                 Xóa

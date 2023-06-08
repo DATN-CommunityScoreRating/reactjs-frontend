@@ -4,6 +4,8 @@ import community_login from '../assets/images/logo-custom.png';
 import { login } from '../services/loginService';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import {ifAnyGranted, Roles} from "../container/authorize/Authorization";
+import SITE_MAP from "../constants/path";
 const { Title } = Typography;
 const { Header, Footer, Content } = Layout;
 
@@ -23,7 +25,11 @@ const SignIn = () => {
                 message: 'Đăng nhập thành công',
                 description: 'Chào mừng bạn đến với hệ thống đánh giá điểm cộng đồng',
             });
-            history.push('/classes');
+            if (ifAnyGranted([Roles.ADMIN])){
+                history.push(SITE_MAP.MANAGER_CLASS.LIST);
+            } else {
+                history.push(SITE_MAP.MANAGER_ACTIVITY.LIST)
+            }
         }
         if (!res.success && res?.errorCode === 'AUTHENTICATION_FAILURE') {
             notification.error({

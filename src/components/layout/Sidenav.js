@@ -6,7 +6,6 @@ import SITE_MAP from '../../constants/path';
 import Authorization, {
     Roles,
     TypeRoles,
-    ifNotGranted,
 } from '../../container/authorize/Authorization';
 
 function Sidenav({ color }) {
@@ -108,10 +107,10 @@ function Sidenav({ color }) {
             <Menu theme="light" mode="inline">
                 <Menu.Item key="1">
                     <Authorization
-                        type={TypeRoles.ifNotGranted}
-                        roles={[Roles.STUDENT, Roles.ADMIN]}
+                        type={TypeRoles.ifAnyGranted}
+                        roles={[Roles.ADMIN]}
                     >
-                        <NavLink to={SITE_MAP.MANAGER_USER.LIST}>
+                        <NavLink to={SITE_MAP.MANAGER_CLASS.LIST}>
                             <span
                                 className="icon"
                                 style={{
@@ -120,7 +119,7 @@ function Sidenav({ color }) {
                             >
                                 {dashboard}
                             </span>
-                            <span className="label">Quản lý sinh viên</span>
+                            <span className="label">Quản lý lớp</span>
                         </NavLink>
                     </Authorization>
                 </Menu.Item>
