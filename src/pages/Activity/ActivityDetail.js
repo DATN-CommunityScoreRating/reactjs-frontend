@@ -1,6 +1,7 @@
 import {Button, Card, Col, Progress, Row, Space} from "antd";
 import styled from "styled-components";
 import Authorization, {Roles, TypeRoles} from "../../container/authorize/Authorization";
+const max = 100;
 
 const CartContainer = styled(Card)`
     .row-item{
@@ -24,6 +25,12 @@ const CartContainer = styled(Card)`
         margin: 10px 0;
         display: flex;
         justify-content: center;
+      .registration-percent {
+        font-size: 10px;
+        .ant-progress-inner {
+          font-size: 18px !important;
+        }
+      }
     }
   
   .activity-description {
@@ -84,9 +91,9 @@ const ActivityDetail = () => {
                 <Col className={'col-item'} span={8}>Số lượng tối đa</Col>
                 <Col className={'col-item value'} span={16}>100</Col>
             </Row>
-            <Space className={'row-progress'}>
-                <Progress type="circle" percent={75} format={(percent) => `${percent} Days`} />
-                <Progress type="circle" percent={100} format={() => 'Done'} />
+            <Space className={'row-progress'} size={60}>
+                <Progress className={'registration-percent'} type="circle" percent={75} format={(percent) => `${percent}/${max} đã đăng ký`} />
+                <Progress type="circle" percent={100} strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }} format={() => '+20 điểm'} />
             </Space>
 
             <Card className={'activity-description'} title={'Nội dung hoạt động'}>
