@@ -1,48 +1,60 @@
-import {Card, Table, Button, Typography, Tag, Progress, Dropdown} from 'antd';
-
-import {Link, useHistory} from 'react-router-dom';
+import { Card, Table, Button, Typography, Tag, Progress, Dropdown } from 'antd';
+import styled from 'styled-components';
+import { Link, useHistory } from 'react-router-dom';
 import SITE_MAP from '../../constants/path';
 import {
     CheckCircleOutlined,
     ClockCircleOutlined,
-    CloseCircleOutlined, DeleteOutlined, EditOutlined, EllipsisOutlined,
-    SyncOutlined, TeamOutlined
-} from "@ant-design/icons";
-import './style.css'
-import {useEffect, useState} from "react";
-import {getListActivity} from "../../services/activityService";
-import ACTIVITY_STATUS from "../../constants/ativityStatus";
-
+    CloseCircleOutlined,
+    DeleteOutlined,
+    EditOutlined,
+    EllipsisOutlined,
+    SyncOutlined,
+    TeamOutlined,
+} from '@ant-design/icons';
+import './style.css';
+import { useEffect, useState } from 'react';
+import { getListActivity } from '../../services/activityService';
+import ACTIVITY_STATUS from '../../constants/ativityStatus';
 
 const { Title } = Typography;
 
-const items = [
+const StyledAction = styled.div`
+    .anticon {
+        margin-right: 5px;
+    }
+`;
+const handleClickAction = (type, recordData) => {
+    console.log('🚀 ~ file: index.js:20 ~ handleClickAction ~ type, recordData:', type, recordData);
+};
+
+const activityAction = (handleClick, record) => [
     {
-        key: '1',
+        key: `${record.activityId}-1`,
         label: (
-            <a target={"_blank"} rel="noopener noreferrer" href={'/'} >
-                Xem sinh viên đã đăng ký
-            </a>
+            <StyledAction onClick={() => handleClick('view', record)}>
+                <TeamOutlined />
+                <span>Xem sinh viên đã đăng ký</span>
+            </StyledAction>
         ),
-        icon: <TeamOutlined />
     },
     {
-        key: '2',
+        key: `${record.activityId}-2`,
         label: (
-            <a target="_blank" rel="noopener noreferrer" href="/">
-                Chỉnh sửa
-            </a>
+            <StyledAction onClick={() => handleClick('edit', record)}>
+                <EditOutlined />
+                <span>Chỉnh sửa</span>
+            </StyledAction>
         ),
-        icon: <EditOutlined />
     },
     {
-        key: '3',
+        key: `${record.activityId}-3`,
         label: (
-            <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-                Xóa
-            </a>
+            <StyledAction onClick={() => handleClick('delete', record)}>
+                <DeleteOutlined />
+                <span>Xoá</span>
+            </StyledAction>
         ),
-        icon: <DeleteOutlined />,
         danger: true,
     },
 ];
@@ -53,11 +65,11 @@ const columns = [
         dataIndex: 'name',
         key: 'activityName',
         render: (name) => (
-            <Link className={'activity-title'} to={"#"}>
+            <Link className={'activity-title'} to={'#'}>
                 {name}
             </Link>
         ),
-        width: '240px'
+        width: '240px',
     },
     {
         title: 'Tổ chức',
@@ -70,33 +82,35 @@ const columns = [
         key: 'status',
         dataIndex: 'status',
         render: (status) => {
-            let icon = <SyncOutlined spin/>
+            let icon = <SyncOutlined spin />;
             let color = 'green';
-            let message = ""
-            if (status === ACTIVITY_STATUS.EXPIRED.status){
+            let message = '';
+            if (status === ACTIVITY_STATUS.EXPIRED.status) {
                 color = 'volcano';
-                icon = <CloseCircleOutlined />
+                icon = <CloseCircleOutlined />;
                 message = ACTIVITY_STATUS.EXPIRED.message;
             }
-            if (status === ACTIVITY_STATUS.ACTIVE.status){
-                color = 'green'
-                icon = <SyncOutlined spin />
+            if (status === ACTIVITY_STATUS.ACTIVE.status) {
+                color = 'green';
+                icon = <SyncOutlined spin />;
                 message = ACTIVITY_STATUS.ACTIVE.message;
             }
-            if (status === ACTIVITY_STATUS.FULLY.status){
-                color = 'success'
-                icon = <CheckCircleOutlined />
+            if (status === ACTIVITY_STATUS.FULLY.status) {
+                color = 'success';
+                icon = <CheckCircleOutlined />;
                 message = ACTIVITY_STATUS.FULLY.message;
             }
-            if (status === ACTIVITY_STATUS.PENDING.status){
-                color = 'warning'
-                icon = <ClockCircleOutlined  />
+            if (status === ACTIVITY_STATUS.PENDING.status) {
+                color = 'warning';
+                icon = <ClockCircleOutlined />;
                 message = ACTIVITY_STATUS.PENDING.message;
             }
             return (
-                <Tag icon={icon} color={color}>{message}</Tag>
-            )
-        }
+                <Tag icon={icon} color={color}>
+                    {message}
+                </Tag>
+            );
+        },
     },
     {
         title: 'Ngày bắt đầu',
@@ -121,62 +135,63 @@ const columns = [
         key: 'totalParticipant',
         dataIndex: 'totalParticipant',
         render: (totalParticipant, record) => {
-            let percent = totalParticipant/record.maxQuantity * 100;
+            let percent = (totalParticipant / record.maxQuantity) * 100;
             let status = 'active';
 
-            if (percent < 50){
-                status = 'exception'
-            } else if (percent === 100){
-                status = 'success'
+            if (percent < 50) {
+                status = 'exception';
+            } else if (percent === 100) {
+                status = 'success';
             }
 
             return (
                 <>
-                    <Progress percent={percent} size={"small"} showInfo={false} status={status}/>
-                    <Title level={5} style={{textAlign: 'center'}} >{`${totalParticipant}/${record.maxQuantity}`}</Title>
+                    <Progress percent={percent} size={'small'} showInfo={false} status={status} />
+                    <Title
+                        level={5}
+                        style={{ textAlign: 'center' }}
+                    >{`${totalParticipant}/${record.maxQuantity}`}</Title>
                 </>
-
-            )
-        }
+            );
+        },
     },
     {
         title: 'Hành động',
         key: 'action',
         dataIndex: 'action',
         align: 'center',
-        render: (_, {status}) => (
+        render: (_, record) => (
             // ROLE STUDENT BUTTON DANG KY
             // <Button type={"primary"} disabled={status !== 'ACTIVE'}>Đăng ký</Button>
             <Dropdown
                 menu={{
-                    items,
+                    items: activityAction(handleClickAction, record),
                 }}
                 placement="bottom"
             >
-                <a href='/' target={'_blank'}  onClick={(e) => e.preventDefault()}>
+                <span>
                     <EllipsisOutlined />
-                </a>
+                </span>
             </Dropdown>
-
-        )
+        ),
     },
 ];
-
-
 
 function Activity() {
     const history = useHistory();
 
-    const [listActivity, setListActivity] = useState([])
+    const [listActivity, setListActivity] = useState([]);
 
     useEffect(() => {
         getListActivity().then((data) => {
-            setListActivity(data?.items.map(({facultyId, ...dt}) => ({
-                key: facultyId,
-                ...dt
-            })))
-        })
-    }, [])
+            setListActivity(
+                data?.items.map(({ activityId, ...dt }) => ({
+                    key: activityId,
+                    ...dt,
+                }))
+            );
+        });
+    }, []);
     const handleAddActivity = () => {
         history.push(SITE_MAP.MANAGER_ACTIVITY.CREATE);
     };
