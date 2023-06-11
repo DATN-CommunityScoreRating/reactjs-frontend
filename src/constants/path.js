@@ -12,8 +12,8 @@ const SITE_MAP = {
     MANAGER_ACTIVITY: {
         LIST: '/activities',
         CREATE: '/add-activity',
-        USER: '/activities/users',
-        DETAIL: '/activities/detail'
+        USER: '/activities/:activityId/users',
+        DETAIL: '/activities/:activityId'
     },
 };
 

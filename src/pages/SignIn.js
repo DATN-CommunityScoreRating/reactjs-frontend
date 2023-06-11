@@ -17,29 +17,32 @@ const SignIn = () => {
     const handleChange = (field, value) => {
         setUserData({ ...userData, field: value });
     };
-    const onFinish = async (values) => {
-        const res = await login(values);
-        if (res?.success) {
-            notification.success({
-                placement: 'topRight',
-                message: 'Đăng nhập thành công',
-                description: 'Chào mừng bạn đến với hệ thống đánh giá điểm cộng đồng',
-            });
-            if (ifAnyGranted([Roles.ADMIN])){
-                history.push(SITE_MAP.MANAGER_CLASS.LIST);
-            } else {
-                history.push(SITE_MAP.MANAGER_ACTIVITY.LIST)
+    const onFinish = (values) => {
+        console.log(values)
+        login(values).then(res => {
+            console.log(res)
+            if (res?.success) {
+                notification.success({
+                    placement: 'topRight',
+                    message: 'Đăng nhập thành công',
+                    description: 'Chào mừng bạn đến với hệ thống đánh giá điểm cộng đồng',
+                });
+                if (ifAnyGranted([Roles.ADMIN])){
+                    history.push(SITE_MAP.MANAGER_CLASS.LIST);
+                } else {
+                    history.push(SITE_MAP.MANAGER_ACTIVITY.LIST)
+                }
             }
-        }
-        if (!res.success && res?.errorCode === 'AUTHENTICATION_FAILURE') {
-            notification.error({
-                placement: 'topRight',
-                message: 'Đăng nhập thất bại',
-                description: 'Tên đăng nhập và mật khẩu không chính xác',
-            });
-            setUserData({ username: '', password: '' });
-            form.setFieldsValue({ username: '', password: '' });
-        }
+            if (!res.success && res?.errorCode === 'AUTHENTICATION_FAILURE') {
+                notification.error({
+                    placement: 'topRight',
+                    message: 'Đăng nhập thất bại',
+                    description: 'Tên đăng nhập và mật khẩu không chính xác',
+                });
+                setUserData({ username: '', password: '' });
+                form.setFieldsValue({ username: '', password: '' });
+            }
+        });
     };
 
     const onFinishFailed = (errorInfo) => {

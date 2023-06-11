@@ -1,5 +1,8 @@
 import {Button, Card, Space, Table} from "antd";
 import styled from "styled-components";
+import {useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
+import {getActivityById, getStudentActivity} from "../../services/activityService";
 
 const MyCart = styled(Card)`
 .user-table{
@@ -8,40 +11,27 @@ const MyCart = styled(Card)`
 `
 
 const ActivityUser = () => {
-    const data = [
-        {
-            studentId: '102190350',
-            fullName: 'Lê Khắc Anh Đài',
-            faculty: 'Công nghệ thông tin',
-            className: '19TCLC_Nhat2',
-            score: 20,
+    const {activityId} = useParams();
+    const [students, setStudents] = useState([])
 
-        },
-        {
-            studentId: '102190860',
-            fullName: 'Nguyễn Văn A',
-            faculty: 'Cơ khí',
-            className: '20CK',
-            score: 100,
+    const [activity, setActivity] = useState({
+        activityId: -1,
+        name: '',
+    });
 
-        },
-        {
-            studentId: '102210032',
-            fullName: 'Nguyễn Văn B',
-            faculty: 'Hóa',
-            className: '21H2',
-            score: 60,
+    useEffect(() => {
+        getActivityById(activityId).then((res) => {
+            setActivity(res.data)
+        })
+    }, [activityId])
 
-        },
-        {
-            studentId: '102190359',
-            fullName: 'Nguyễn Văn C',
-            faculty: 'Công nghệ thông tin',
-            className: '19TCLC_Nhat2',
-            score: 100,
-
-        }
-    ]
+    useEffect(() => {
+        getStudentActivity(activityId).then(res => {
+            setStudents(res?.data?.items.map((data) => ({
+                ...data
+            })))
+        })
+    }, [activityId])
 
     const columns = [
         {
@@ -83,13 +73,13 @@ const ActivityUser = () => {
         },
     ]
     return (
-        <MyCart title={'Hiến máu nhân đạo'} className={'card-user-activity'} headStyle={{
+        <MyCart title={activity.name} className={'card-user-activity'} headStyle={{
             color: '#1890ff',
             fontSize: '20px'
         }}>
             <Space direction={"vertical"} className={'user-table'}>
                 <h4 className='table-title'>Danh sách sinh viên đăng ký</h4>
-                <Table className={'table-data'} columns={columns} dataSource={data} />
+                <Table className={'table-data'} columns={columns} dataSource={students} />
             </Space>
 
         </MyCart>
