@@ -1,7 +1,10 @@
 import {Button, Card, Col, Progress, Row, Space} from "antd";
 import styled from "styled-components";
 import Authorization, {Roles, TypeRoles} from "../../container/authorize/Authorization";
-const max = 100;
+import {useEffect, useState} from "react";
+import {getActivityById} from "../../services/activityService";
+import {useParams} from "react-router-dom";
+import ACTIVITY_STATUS from "../../constants/ativityStatus";
 
 const CartContainer = styled(Card)`
     .row-item{
@@ -28,7 +31,7 @@ const CartContainer = styled(Card)`
       .registration-percent {
         font-size: 10px;
         .ant-progress-inner {
-          font-size: 18px !important;
+          font-size: 20px !important;
         }
       }
     }
@@ -40,9 +43,30 @@ const CartContainer = styled(Card)`
 `
 
 const ActivityDetail = () => {
+    const {activityId} = useParams();
+    const [activity, setActivity] = useState({
+        activityId: -1,
+        description: '',
+        endDate: '',
+        location: '',
+        maxQuantity: 0,
+        name: '',
+        organization: '',
+        score: 0,
+        startDate: '',
+        status: 'ACTIVE',
+        totalParticipant: 0
+    });
+
+    useEffect(() => {
+        getActivityById(activityId).then((res) => {
+            setActivity(res.data)
+        })
+    }, [activityId])
+
     return (
         <CartContainer
-            title={'Hiến máu'}
+            title={activity.name}
             gutter={[
                 { xs: 0, sm: 0, md: 28 },
                 { xs: 8, sm: 8, md: 0 },
@@ -69,35 +93,35 @@ const ActivityDetail = () => {
         >
             <Row className={'row-item'}>
                 <Col className={'col-item'} span={8}>Thời gian bắt đầu</Col>
-                <Col className={'col-item value'} span={16}>08/12/2001</Col>
+                <Col className={'col-item value'} span={16}>{activity.startDate}</Col>
             </Row>
             <Row className={'row-item'}>
                 <Col className={'col-item'} span={8}>Thời gian kết thúc</Col>
-                <Col className={'col-item value'} span={16}>08/12/2001</Col>
+                <Col className={'col-item value'} span={16}>{activity.endDate}</Col>
             </Row>
             <Row className={'row-item'}>
                 <Col className={'col-item'} span={8}>Đơn vị tổ chức</Col>
-                <Col className={'col-item value'} span={16}>Đại học Bách Khoa - Đại học Đà Nẵng</Col>
+                <Col className={'col-item value'} span={16}>{activity.organization}</Col>
             </Row>
             <Row className={'row-item'}>
                 <Col className={'col-item'} span={8}>Trạng thái</Col>
-                <Col className={'col-item value'} span={16}>Đang mở đăng ký</Col>
+                <Col className={'col-item value'} span={16}>{ACTIVITY_STATUS[activity.status].message}</Col>
             </Row>
             <Row className={'row-item'}>
                 <Col className={'col-item'} span={8}>Địa điểm</Col>
-                <Col className={'col-item value'} span={16}>Sảnh A Đại học Bách Khoa</Col>
+                <Col className={'col-item value'} span={16}>{activity.location}</Col>
             </Row>
             <Row className={'row-item'}>
                 <Col className={'col-item'} span={8}>Số lượng tối đa</Col>
-                <Col className={'col-item value'} span={16}>100</Col>
+                <Col className={'col-item value'} span={16}>{activity.maxQuantity}</Col>
             </Row>
             <Space className={'row-progress'} size={60}>
-                <Progress className={'registration-percent'} type="circle" percent={75} format={(percent) => `${percent}/${max} đã đăng ký`} />
-                <Progress type="circle" percent={100} strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }} format={() => '+20 điểm'} />
+                <Progress className={'registration-percent'} type="circle" percent={activity.totalParticipant/activity.maxQuantity*100} format={() => `${activity.totalParticipant}/${activity.maxQuantity} đã đăng ký`} />
+                <Progress type="circle" percent={100} strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }} format={() => `+${activity.score} điểm`} />
             </Space>
 
             <Card className={'activity-description'} title={'Nội dung hoạt động'}>
-                <p> Xin chao cac ban minh la dai rat vui duoc lam quen</p>
+                <div dangerouslySetInnerHTML={{__html: activity.description}} />
             </Card>
         </CartContainer>
     )

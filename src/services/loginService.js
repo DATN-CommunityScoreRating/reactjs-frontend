@@ -10,6 +10,6 @@ export const login = async function (userData) {
         }
         return response;
     } catch (e) {
-        console.log('error: ', e);
+        console.log(e)
     }
 };
