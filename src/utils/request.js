@@ -45,4 +45,9 @@ export const post = async (path, options = {}) => {
     return response.data;
 };
 
+export const deleteAxios = async (path) => {
+    const response = await instance.delete(path);
+    return response.data;
+};
+
 export default instance;

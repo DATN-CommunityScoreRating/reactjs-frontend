@@ -1,4 +1,4 @@
-import {Card, Table, Button, Typography, Tag, Progress, Dropdown, message} from 'antd';
+import {Card, Table, Button, Typography, Tag, Progress, Dropdown, message, Popconfirm} from 'antd';
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
 import SITE_MAP from '../../constants/path';
@@ -14,7 +14,7 @@ import {
 } from '@ant-design/icons';
 import './style.css';
 import { useEffect, useState } from 'react';
-import {getListActivity, registrationActivity} from '../../services/activityService';
+import {deleteActivity, getListActivity, registrationActivity} from '../../services/activityService';
 import ACTIVITY_STATUS from '../../constants/ativityStatus';
 import Authorization, {ifNotGranted, Roles, TypeRoles} from "../../container/authorize/Authorization";
 
@@ -42,6 +42,26 @@ function Activity() {
         if (type === ACTION.VIEW){
             history.push(`/activities/${recordData.activityId}/users`)
         }
+        if (type === ACTION.DELETE){
+            deleteActivity(recordData.activityId).then(res => {
+                if (res?.success){
+                    messageApi
+                        .open({
+                            type: 'success',
+                            content: 'Xóa thành công',
+                            duration: 1,
+                        })
+                        .then((r) => {
+                            refreshListActivity()
+                        });
+                } else {
+                    messageApi.open({
+                        type: 'error',
+                        content: 'Có lỗi xảy ra',
+                    });
+                }
+            })
+        }
     };
 
     const activityAction = (handleClick, record) => [
@@ -66,12 +86,21 @@ function Activity() {
         {
             key: `${record.activityId}-3`,
             label: (
-                <StyledAction onClick={() => handleClick(ACTION.DELETE, record)}>
-                    <DeleteOutlined />
-                    <span>Xoá</span>
-                </StyledAction>
+                <Popconfirm
+                    title="Xóa hoạt động"
+                    description={`Bạn muốn xóa hoạt động ${record.name}?`}
+                    okText="Xóa"
+                    cancelText="Hủy"
+                    onConfirm={() => handleClick(ACTION.DELETE, record)}
+                >
+                    <StyledAction>
+                        <DeleteOutlined />
+                        <span>Xoá</span>
+                    </StyledAction>
+                </Popconfirm>
             ),
             danger: true,
+            disabled: record.status !== ACTIVITY_STATUS.ACTIVE.status
         },
     ];
 
@@ -209,7 +238,7 @@ function Activity() {
         },
     ];
 
-    useEffect(() => {
+    const refreshListActivity = () => {
         getListActivity().then((data) => {
             setListActivity(
                 data?.items.map((record, index) => ({
@@ -218,6 +247,10 @@ function Activity() {
                 }))
             );
         });
+    }
+
+    useEffect(() => {
+        refreshListActivity()
     }, [registrationId]);
     const handleAddActivity = () => {
         history.push(SITE_MAP.MANAGER_ACTIVITY.CREATE);
