@@ -133,7 +133,20 @@ function Sidenav({ color }) {
                         >
                             {tables}
                         </span>
-                        <span className="label">Quản lý hoạt động</span>
+                        <span className="label">
+                            <Authorization
+                                type={TypeRoles.ifAnyGranted}
+                                roles={[Roles.STUDENT]}
+                            >
+                                Đăng ký tham gia
+                            </Authorization>
+                            <Authorization
+                                type={TypeRoles.ifNotGranted}
+                                roles={[Roles.STUDENT]}
+                            >
+                                Quản lý hoạt động
+                            </Authorization>
+                        </span>
                     </NavLink>
                 </Menu.Item>
                 <Menu.Item key="3">
