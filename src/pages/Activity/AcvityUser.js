@@ -1,8 +1,9 @@
-import {Button, Card, Space, Table} from "antd";
+import {Button, Card, message, Popconfirm, Space, Table} from "antd";
 import styled from "styled-components";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getActivityById, getStudentActivity} from "../../services/activityService";
+import {deleteUserActivity, getActivityById, getStudentActivity} from "../../services/activityService";
+import ACTIVITY_STATUS from "../../constants/ativityStatus";
 
 const MyCart = styled(Card)`
 .user-table{
@@ -13,10 +14,12 @@ const MyCart = styled(Card)`
 const ActivityUser = () => {
     const {activityId} = useParams();
     const [students, setStudents] = useState([])
+    const [messageApi, contextHolder] = message.useMessage();
 
     const [activity, setActivity] = useState({
         activityId: -1,
         name: '',
+        status: 'ACTIVE'
     });
 
     useEffect(() => {
@@ -25,6 +28,14 @@ const ActivityUser = () => {
         })
     }, [activityId])
 
+    const getStudents = () => {
+        getStudentActivity(activityId).then(res => {
+            setStudents(res?.data?.items.map((data) => ({
+                ...data
+            })))
+        })
+    }
+
     useEffect(() => {
         getStudentActivity(activityId).then(res => {
             setStudents(res?.data?.items.map((data) => ({
@@ -32,6 +43,27 @@ const ActivityUser = () => {
             })))
         })
     }, [activityId])
+
+    const handleDeleteUserActivity = (userActivityId) => {
+        deleteUserActivity(userActivityId).then(res => {
+            if (res?.success){
+                messageApi
+                    .open({
+                        type: 'success',
+                        content: 'Xóa thành công',
+                        duration: 1,
+                    })
+                    .then((r) => {
+                        getStudents()
+                    });
+            } else {
+                messageApi.open({
+                    type: 'error',
+                    content: 'Có lỗi xảy ra',
+                });
+            }
+        })
+    }
 
     const columns = [
         {
@@ -64,10 +96,18 @@ const ActivityUser = () => {
             dataIndex: 'action',
             key: 'action',
             render: (_, record) => {
+                let isActive = ACTIVITY_STATUS.ACTIVE.status === activity.status;
                 return (
-                    <>
-                        <Button danger>Xóa</Button>
-                    </>
+                    <Popconfirm
+                        title="Xóa sinh viên khỏi hoạt động"
+                        description={`Bạn muốn xóa ${record.fullName} khỏi hoạt động này`}
+                        onConfirm={() => handleDeleteUserActivity(record?.userActivityId)}
+                        okText="Xóa"
+                        okType={"danger"}
+                        cancelText="Hủy"
+                    >
+                        <Button danger disabled={!isActive}>Xóa</Button>
+                    </Popconfirm>
                 );
             },
         },
@@ -77,6 +117,7 @@ const ActivityUser = () => {
             color: '#1890ff',
             fontSize: '20px'
         }}>
+            {contextHolder}
             <Space direction={"vertical"} className={'user-table'}>
                 <h4 className='table-title'>Danh sách sinh viên đăng ký</h4>
                 <Table className={'table-data'} columns={columns} dataSource={students} />

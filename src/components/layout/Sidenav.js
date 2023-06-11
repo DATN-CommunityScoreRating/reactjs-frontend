@@ -1,6 +1,6 @@
 import { Button, Menu } from 'antd';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
-import logo from '../../assets/images/logo.png';
+import logo from '../../assets/images/logo-custom.png';
 import { LogoutOutlined } from '@ant-design/icons';
 import SITE_MAP from '../../constants/path';
 import Authorization, {
@@ -101,7 +101,8 @@ function Sidenav({ color }) {
         <>
             <div className="brand">
                 <img src={logo} alt="" />
-                <span>Muse Dashboard</span>
+                <br/>
+                <span>Hệ thống đánh giá <br/> điểm phục vụ cộng đồng <br/> Đại học Bách Khoa</span>
             </div>
             <hr />
             <Menu theme="light" mode="inline">
