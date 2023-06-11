@@ -1,4 +1,4 @@
-import {get, post} from '../utils/request';
+import {deleteAxios, get, post} from '../utils/request';
 
 
 export const getListActivity = async (options) => {
@@ -37,6 +37,22 @@ export const getActivityById = async (activityId) => {
 export const registrationActivity = async (options) => {
     try {
         return await post('activities/registration', options);
+    } catch (e){
+        return e.response;
+    }
+}
+
+export const deleteUserActivity = async (userActivityId) => {
+    try {
+        return await deleteAxios(`activities/students/${userActivityId}`)
+    } catch (e){
+        return e.response;
+    }
+}
+
+export const deleteActivity = async (activityId) => {
+    try {
+        return await deleteAxios(`activities/${activityId}`)
     } catch (e){
         return e.response;
     }
