@@ -5,7 +5,7 @@ import SITE_MAP from '../../constants/path';
 import {
     CheckCircleOutlined,
     ClockCircleOutlined,
-    CloseCircleOutlined,
+    CloseCircleOutlined, DashboardOutlined,
     DeleteOutlined,
     EditOutlined,
     EllipsisOutlined,
@@ -114,7 +114,7 @@ function Activity() {
                     {name}
                 </Link>
             ),
-            width: '240px',
+            width: '18%',
         },
         {
             title: 'Tổ chức',
@@ -126,11 +126,13 @@ function Activity() {
             title: 'Trạng thái',
             key: 'status',
             dataIndex: 'status',
-            render: (status) => {
+            render: (status, record) => {
                 let icon = <SyncOutlined spin />;
                 let color = 'green';
                 let message = '';
-                if (status === ACTIVITY_STATUS.EXPIRED.status) {
+                if (status === ACTIVITY_STATUS.EXPIRED.status ||
+                    status === ACTIVITY_STATUS.GOING_ON.status || 
+                    status === ACTIVITY_STATUS.IS_COMING.status) {
                     color = 'volcano';
                     icon = <CloseCircleOutlined />;
                     message = ACTIVITY_STATUS.EXPIRED.message;
@@ -151,22 +153,31 @@ function Activity() {
                     message = ACTIVITY_STATUS.PENDING.message;
                 }
                 return (
-                    <Tag icon={icon} color={color}>
-                        {message}
-                    </Tag>
+                    <>
+                        <Tag icon={icon} color={color}>
+                            {message}
+                        </Tag>
+                        {
+                            record.needConfirmation  &&
+                            <Tag icon={<DashboardOutlined/>} color={"cyan"} >
+                                Cần xác nhận
+                            </Tag>
+                        }
+                    </>
                 );
             },
+            width: '14%'
         },
         {
-            title: 'Ngày bắt đầu',
-            key: 'startDate',
-            dataIndex: 'startDate',
+            title: "Mở đăng ký",
+            key: 'startRegister',
+            dataIndex: 'startRegister',
             align: 'center',
         },
         {
-            title: 'Ngày kết thúc',
-            key: 'endDate',
-            dataIndex: 'endDate',
+            title: 'Kết thúc đăng ký',
+            key: 'endRegister',
+            dataIndex: 'endRegister',
             align: 'center',
         },
         {

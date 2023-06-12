@@ -3,6 +3,14 @@ const ACTIVITY_STATUS = {
         status: "ACTIVE",
         message: "Mở đăng ký"
     },
+    GOING_ON: {
+        status: "GOING_ON",
+        message: "Đang diễn ra"
+    },
+    IS_COMING: {
+        status: "IS_COMING",
+        message: "Sắp diễn ra diễn ra"
+    },
     EXPIRED: {
         status: "EXPIRED",
         message: "Hết hạn"
