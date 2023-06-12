@@ -1,7 +1,7 @@
 import { Button, Menu } from 'antd';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import logo from '../../assets/images/logo-custom.png';
-import { LogoutOutlined } from '@ant-design/icons';
+import {LogoutOutlined, RiseOutlined, SendOutlined} from '@ant-design/icons';
 import SITE_MAP from '../../constants/path';
 import Authorization, {
     Roles,
@@ -150,19 +150,55 @@ function Sidenav({ color }) {
                         </span>
                     </NavLink>
                 </Menu.Item>
-                <Menu.Item key="3">
-                    <NavLink to="/billing">
+                <Authorization
+                    type={TypeRoles.ifAnyGranted}
+                    roles={[Roles.STUDENT]}
+                    >
+                    <Menu.Item key="3">
+                        <NavLink to={SITE_MAP.MY_ACTIVITY.LIST}>
+                        <span
+                            className="icon"
+                            style={{
+                                background: page === 'my-activity' ? color : '',
+                            }}
+                        >
+                            {billing}
+                        </span>
+                            <span className="label">Hoạt động cá nhân</span>
+                        </NavLink>
+                    </Menu.Item>
+                    <Menu.Item key="4">
+                        <NavLink to={SITE_MAP.SEND_PROOF.SEND}>
+                        <span
+                            className="icon"
+                            style={{
+                                background: page === 'send' ? color : '',
+                            }}
+                        >
+                            {<SendOutlined />}
+                        </span>
+                            <span className="label">Gửi minh chứng</span>
+                        </NavLink>
+                    </Menu.Item>
+                </Authorization>
+                <Authorization
+                    type={TypeRoles.ifNotGranted}
+                    roles={[Roles.STUDENT]}
+                >
+                    <Menu.Item key="5">
+                        <NavLink to="/billing">
                         <span
                             className="icon"
                             style={{
                                 background: page === 'billing' ? color : '',
                             }}
                         >
-                            {billing}
+                            <RiseOutlined />
                         </span>
-                        <span className="label">Thống kê</span>
-                    </NavLink>
-                </Menu.Item>
+                            <span className="label">Xem thống kê</span>
+                        </NavLink>
+                    </Menu.Item>
+                </Authorization>
                 <Menu.Item className="menu-item-header" key="5">
                     Cá nhân
                 </Menu.Item>

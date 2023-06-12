@@ -152,13 +152,6 @@ const User = () => {
                 <Button type={"primary"} style={{width:"60px"}} onClick={handleFilter}>Lọc</Button>
             </div>
             <div className="user-action-group">
-                <Button
-                    type={'primary'}
-                    style={{ marginBottom: '10px' }}
-                    onClick={(e) => history.push('add-user')}
-                >
-                    Thêm sinh viên
-                </Button>
                 <Table dataSource={userData?.items || []} columns={columns}></Table>
             </div>
         </StyleUser>
