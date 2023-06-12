@@ -4,6 +4,7 @@ import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {deleteUserActivity, getActivityById, getStudentActivity} from "../../services/activityService";
 import ACTIVITY_STATUS from "../../constants/ativityStatus";
+import STUDENT_ACTIVITY_STATUS from "../../constants/studentActivityStatus";
 
 const MyCart = styled(Card)`
 .user-table{
@@ -97,17 +98,22 @@ const ActivityUser = () => {
             key: 'action',
             render: (_, record) => {
                 let isActive = ACTIVITY_STATUS.ACTIVE.status === activity.status;
+                let canConfirm = [ACTIVITY_STATUS.GOING_ON, ACTIVITY_STATUS.EXPIRED.status].includes(activity.status)
                 return (
-                    <Popconfirm
-                        title="Xóa sinh viên khỏi hoạt động"
-                        description={`Bạn muốn xóa ${record.fullName} khỏi hoạt động này`}
-                        onConfirm={() => handleDeleteUserActivity(record?.userActivityId)}
-                        okText="Xóa"
-                        okType={"danger"}
-                        cancelText="Hủy"
-                    >
-                        <Button danger disabled={!isActive}>Xóa</Button>
-                    </Popconfirm>
+                    <Space>
+                        {canConfirm && <Button type={"primary"}>Xác nhận</Button>}
+                        {STUDENT_ACTIVITY_STATUS.SEND_PROOF === record.status && <Button type={"default"}>Xem minh chứng</Button>}
+                        {isActive && <Popconfirm
+                            title="Xóa sinh viên khỏi hoạt động"
+                            description={`Bạn muốn xóa ${record.fullName} khỏi hoạt động này`}
+                            onConfirm={() => handleDeleteUserActivity(record?.userActivityId)}
+                            okText="Xóa"
+                            okType={"danger"}
+                            cancelText="Hủy"
+                        >
+                            <Button danger>Xóa</Button>
+                        </Popconfirm>}
+                    </Space>
                 );
             },
         },

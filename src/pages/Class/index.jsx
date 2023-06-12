@@ -69,6 +69,7 @@ const ManageClass = () => {
                 return (
                     <ActionStyle>
                         <Button
+                            type={"primary"}
                             onClick={() =>
                                 history.push(
                                     `users?classId=${record.classId}&facultyId=${record.facultyId}`
@@ -76,10 +77,6 @@ const ManageClass = () => {
                             }
                         >
                             Xem sinh viên
-                        </Button>
-                        <Button type={'primary'}>Cập nhật lớp</Button>
-                        <Button type={'default'} danger>
-                            Xóa
                         </Button>
                     </ActionStyle>
                 );

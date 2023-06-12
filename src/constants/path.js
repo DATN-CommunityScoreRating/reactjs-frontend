@@ -15,6 +15,12 @@ const SITE_MAP = {
         USER: '/activities/:activityId/users',
         DETAIL: '/activities/:activityId'
     },
+    MY_ACTIVITY: {
+        LIST: "/my-activities"
+    },
+    SEND_PROOF: {
+        SEND: "/send-proof"
+    }
 };
 
 export default SITE_MAP;
