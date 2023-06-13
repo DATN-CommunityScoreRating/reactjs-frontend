@@ -9,7 +9,7 @@ const ACTIVITY_STATUS = {
     },
     IS_COMING: {
         status: "IS_COMING",
-        message: "Sắp diễn ra diễn ra"
+        message: "Sắp diễn ra"
     },
     EXPIRED: {
         status: "EXPIRED",

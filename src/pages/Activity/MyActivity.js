@@ -1,12 +1,41 @@
 import {Button, Card, Space, Table, Tag} from "antd";
+import {useEffect, useState} from "react";
+import {getMyActivities} from "../../services/activityService";
+import {Link} from "react-router-dom";
+import styled from "styled-components";
+import STUDENT_ACTIVITY_STATUS from "../../constants/studentActivityStatus";
+import ACTIVITY_STATUS from "../../constants/ativityStatus";
+
+const MyActivityStyle = styled.div`
+  .activity-title {
+    font-size: 15px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+  }
+`
 
 const MyActivity = () => {
+    const [myActivity, setMyActivity] = useState([])
+
+    useEffect(() => {
+        getMyActivities().then(res => {
+            setMyActivity(res?.data?.items.map((data, index) => ({
+                key: index,
+                ...data
+            })))
+        })
+    }, [])
+
     const columns = [
         {
             title: 'Hoạt động',
             dataIndex: 'name',
             key: 'name',
-            render: (text) => <a>{text}</a>,
+            render: (name, record) => (
+                <Link className={'activity-title'} to={`/activities/${record.activityId}`}>
+                    {name}
+                </Link>
+            )
         },
         {
             title: 'Đơn vị tổ chức',
@@ -20,8 +49,14 @@ const MyActivity = () => {
         },
         {
             title: 'Trạng thái',
-            dataIndex: 'status',
-            key: 'status',
+            dataIndex: 'userActivityStatus',
+            key: 'userActivityStatus',
+            render: (userActivityStatus) => (
+                userActivityStatus !== '' &&
+                <Tag icon={STUDENT_ACTIVITY_STATUS[userActivityStatus].icon} color={STUDENT_ACTIVITY_STATUS[userActivityStatus].color}>
+                    {STUDENT_ACTIVITY_STATUS['REGISTERED'].message}
+                </Tag>
+            )
         },
         {
             title: 'Ngày bắt đầu',
@@ -38,55 +73,23 @@ const MyActivity = () => {
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                   <Button type={"primary"}>Gửi minh chứng</Button>
+                   <Button
+                       type={"primary"}
+                       disabled={record.userActivityStatus === STUDENT_ACTIVITY_STATUS.REGISTERED.status
+                           &&record.status !== ACTIVITY_STATUS.EXPIRED.status}
+                   >
+                       Gửi minh chứng
+                   </Button>
                 </Space>
             ),
         },
     ];
-    const data = [
-        {
-            key: '1',
-            name: "Hiến máu",
-            status: 'Đã gửi minh chứng',
-            organization: 'Đại học Bách Khoa',
-            location: "Khu F",
-            startDate: '20-05-2023',
-            endDate: '21-05-2023'
-        },
-        {
-            key: '2',
-            status: 'Đã gửi minh chứng',
-            name: "Hiến máu",
-            organization: 'Đại học Bách Khoa',
-            location: "Khu F",
-            startDate: '20-05-2023',
-            endDate: '21-05-2023'
-        },
-        {
-            key: '3',
-            status: 'Đã gửi minh chứng',
-            name: "Hiến máu",
-            organization: 'Đại học Bách Khoa',
-            location: "Khu F",
-            startDate: '20-05-2023',
-            endDate: '21-05-2023'
-        },
-        {
-            key: '4',
-            name: "Hiến máu",
-            status: 'Đã gửi minh chứng',
-            organization: 'Đại học Bách Khoa',
-            location: "Khu F",
-            startDate: '20-05-2023',
-            endDate: '21-05-2023'
-        },
-    ];
     return (
-        <div>
+        <MyActivityStyle>
             <Card title={'Hoạt động cộng đồng cá nhân'}>
-                <Table columns={columns} dataSource={data}/>
+                <Table columns={columns} dataSource={myActivity}/>
             </Card>
-        </div>
+        </MyActivityStyle>
     )
 }
 
