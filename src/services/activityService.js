@@ -57,3 +57,20 @@ export const deleteActivity = async (activityId) => {
         return e.response;
     }
 }
+
+export const getMyActivities = async () => {
+    try {
+        return await get('activities/my-activity')
+    } catch (e){
+        return e.response;
+    }
+}
+
+
+export const cancelActivity = async (activityId) => {
+    try {
+        return await deleteAxios(`activities/cancel/${activityId}`)
+    } catch (e){
+        return e.response;
+    }
+}

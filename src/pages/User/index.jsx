@@ -3,7 +3,6 @@ import './style.css';
 import Title from 'antd/es/typography/Title';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useHistory } from 'react-router-dom';
 import { getFaculties } from '../../services/facultyService';
 import { convertOptions, getSearchParameters } from '../../utils/helper';
 import { getClasses } from '../../services/classService';
@@ -20,7 +19,6 @@ const StyleUser = styled.div`
 
 const User = () => {
     const { classId: classIdParam } = getSearchParameters();
-    const history = useHistory();
     const [faculty, setFaculty] = useState();
     const [facultyOptions, setFacultyOptions] = useState([]);
     const [classOptions, setClassOptions] = useState([]);

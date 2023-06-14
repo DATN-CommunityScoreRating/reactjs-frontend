@@ -102,7 +102,7 @@ const ActivityUser = () => {
                 return (
                     <Space>
                         {canConfirm && <Button type={"primary"}>Xác nhận</Button>}
-                        {STUDENT_ACTIVITY_STATUS.SEND_PROOF === record.status && <Button type={"default"}>Xem minh chứng</Button>}
+                        {STUDENT_ACTIVITY_STATUS.SEND_PROOF.status === record.status && <Button type={"default"}>Xem minh chứng</Button>}
                         {isActive && <Popconfirm
                             title="Xóa sinh viên khỏi hoạt động"
                             description={`Bạn muốn xóa ${record.fullName} khỏi hoạt động này`}
