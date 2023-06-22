@@ -1,7 +1,7 @@
 import { Button, Menu } from 'antd';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import logo from '../../assets/images/logo-custom.png';
-import {LogoutOutlined, RiseOutlined, SendOutlined} from '@ant-design/icons';
+import {FileDoneOutlined, LogoutOutlined, SendOutlined} from '@ant-design/icons';
 import SITE_MAP from '../../constants/path';
 import Authorization, {
     Roles,
@@ -186,16 +186,16 @@ function Sidenav({ color }) {
                     roles={[Roles.STUDENT]}
                 >
                     <Menu.Item key="5">
-                        <NavLink to="/billing">
+                        <NavLink to="/confirm-proof">
                         <span
                             className="icon"
                             style={{
-                                background: page === 'billing' ? color : '',
+                                background: page === 'confirm-proof' ? color : '',
                             }}
                         >
-                            <RiseOutlined />
+                            <FileDoneOutlined />
                         </span>
-                            <span className="label">Xem thống kê</span>
+                            <span className="label">Xác nhận minh chứng</span>
                         </NavLink>
                     </Menu.Item>
                 </Authorization>

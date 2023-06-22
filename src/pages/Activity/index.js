@@ -43,7 +43,7 @@ function Activity() {
     const [messageApi, contextHolder] = message.useMessage();
     const [registrationId, setRegistrationId] = useState(-1);
 
-    const handleDeleteUserActivity = (activityId) => {
+    const handleDeleteUserActivity = (status, activityId) => {
         cancelActivity(activityId).then(res => {
             if (res?.success){
                 messageApi
@@ -254,7 +254,7 @@ function Activity() {
                             <EllipsisOutlined />
                         </span>
                     </Dropdown> :
-                    record?.registered ?
+                    record?.registered && record.status === ACTIVITY_STATUS.ACTIVE.status ?
                         <Popconfirm
                             title="Hủy đăng ký"
                             description={`Bạn muốn hủy đăng ký hoạt động ${record.name}?`}

@@ -1,4 +1,4 @@
-import {AuditOutlined, CheckCircleOutlined, MailOutlined} from "@ant-design/icons";
+import {AuditOutlined, CheckCircleOutlined, ExclamationCircleOutlined, MailOutlined} from "@ant-design/icons";
 
 const STUDENT_ACTIVITY_STATUS = {
     REGISTERED: {
@@ -9,7 +9,7 @@ const STUDENT_ACTIVITY_STATUS = {
     },
     SEND_PROOF: {
         status: 'SEND_PROOF',
-        message: 'Đã gửi minh chứng',
+        message: 'Chưa được xác nhận',
         color: 'green',
         icon: <MailOutlined />
     },
@@ -18,6 +18,12 @@ const STUDENT_ACTIVITY_STATUS = {
         message: 'Đã xác nhận',
         color: 'blue',
         icon: <CheckCircleOutlined />
+    },
+    NOT_ACCEPTED: {
+        status: 'NOT_ACCEPTED',
+        message: 'Không được chấp nhận',
+        color: 'red',
+        icon:  <ExclamationCircleOutlined />
     },
 }
 
