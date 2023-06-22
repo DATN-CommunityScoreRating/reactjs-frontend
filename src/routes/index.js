@@ -13,7 +13,8 @@ import AddActivity from '../pages/Activity/AddActivity';
 import ActivityUser from "../pages/Activity/AcvityUser";
 import ActivityDetail from "../pages/Activity/ActivityDetail";
 import MyActivity from "../pages/Activity/MyActivity";
-import SendProof from "../pages/Proof/SendProof";
+import SendClearProof from "../pages/ClearProof/SendClearProof";
+import ConfirmProof from "../pages/ClearProof/ConfirmProof";
 
 const MainRouter = () => {
     return (
@@ -29,7 +30,8 @@ const MainRouter = () => {
             <ProtectedRouter exact path={SITE_MAP.MANAGER_ACTIVITY.USER} component={ActivityUser} />
             <ProtectedRouter exact path={SITE_MAP.MANAGER_ACTIVITY.DETAIL} component={ActivityDetail} />
             <ProtectedRouter exact path={SITE_MAP.MY_ACTIVITY.LIST} component={MyActivity} />
-            <ProtectedRouter exact path={SITE_MAP.SEND_PROOF.SEND} component={SendProof} />
+            <ProtectedRouter exact path={SITE_MAP.SEND_PROOF.SEND} component={SendClearProof} />
+            <ProtectedRouter exact path={SITE_MAP.SEND_PROOF.CONFIRM_PROOF} component={ConfirmProof} />
             <ProtectedRouter
                 exact
                 path={SITE_MAP.MANAGER_ACTIVITY.CREATE}

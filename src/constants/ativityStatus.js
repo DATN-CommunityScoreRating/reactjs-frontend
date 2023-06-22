@@ -13,7 +13,7 @@ const ACTIVITY_STATUS = {
     },
     EXPIRED: {
         status: "EXPIRED",
-        message: "Hết hạn"
+        message: "Hết hạn đăng ký"
     },
     FULLY: {
         status: "FULLY",

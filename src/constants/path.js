@@ -19,7 +19,8 @@ const SITE_MAP = {
         LIST: "/my-activities"
     },
     SEND_PROOF: {
-        SEND: "/send-proof"
+        SEND: "/send-proof",
+        CONFIRM_PROOF: '/confirm-proof'
     }
 };
 
