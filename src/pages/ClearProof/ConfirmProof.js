@@ -45,7 +45,8 @@ const ConfirmProof = () => {
         studentFullName: "string",
         description: "string",
         maxScore: 0,
-        minScore: 0
+        minScore: 0,
+        clearProofScore: 0
     })
 
     const [score, setScore] = useState(5);
@@ -201,7 +202,13 @@ const ConfirmProof = () => {
                     </Row>
                     <Row className={'row-item'}>
                         <Col className={'col-item'} span={8}>Điểm đánh giá: </Col>
-                        <Col className={'col-item value'} span={16}><InputNumber onChange={e => handleChangeScore(e)} min={clearProof.minScore} max={clearProof.maxScore} value={score}/> </Col>
+                        <Col className={'col-item value'} span={16}>{
+                            clearProof.status === STUDENT_ACTIVITY_STATUS.SEND_PROOF.status ?
+                                <InputNumber onChange={e => handleChangeScore(e)} min={clearProof.minScore} max={clearProof.maxScore} value={score}/> :
+                                clearProof.clearProofScore
+                        }
+
+                        </Col>
                     </Row>
                     <Row>
                         <Card title={'Nội dung'} style={{width: '100%'}}>

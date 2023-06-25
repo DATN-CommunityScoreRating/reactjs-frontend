@@ -1,7 +1,7 @@
 import { Button, Menu } from 'antd';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import logo from '../../assets/images/logo-custom.png';
-import {FileDoneOutlined, LogoutOutlined, SendOutlined} from '@ant-design/icons';
+import {AppstoreOutlined, FileDoneOutlined, LogoutOutlined, SendOutlined} from '@ant-design/icons';
 import SITE_MAP from '../../constants/path';
 import Authorization, {
     Roles,
@@ -109,7 +109,7 @@ function Sidenav({ color }) {
                 <Menu.Item key="1">
                     <Authorization
                         type={TypeRoles.ifAnyGranted}
-                        roles={[Roles.ADMIN]}
+                        roles={[Roles.ADMIN, Roles.FACULTY, Roles.UNION]}
                     >
                         <NavLink to={SITE_MAP.MANAGER_CLASS.LIST}>
                             <span
@@ -125,30 +125,35 @@ function Sidenav({ color }) {
                     </Authorization>
                 </Menu.Item>
                 <Menu.Item key="2">
-                    <NavLink to={SITE_MAP.MANAGER_ACTIVITY.LIST}>
-                        <span
-                            className="icon"
-                            style={{
-                                background: page === 'tables' ? color : '',
-                            }}
-                        >
-                            {tables}
-                        </span>
-                        <span className="label">
-                            <Authorization
-                                type={TypeRoles.ifAnyGranted}
-                                roles={[Roles.STUDENT]}
+                    <Authorization
+                        type={TypeRoles.ifNotGranted}
+                        roles={[Roles.CLASS, Roles.UNION]}
+                    >
+                        <NavLink to={SITE_MAP.MANAGER_ACTIVITY.LIST}>
+                            <span
+                                className="icon"
+                                style={{
+                                    background: page === 'tables' ? color : '',
+                                }}
                             >
-                                Đăng ký tham gia
-                            </Authorization>
-                            <Authorization
-                                type={TypeRoles.ifNotGranted}
-                                roles={[Roles.STUDENT]}
-                            >
-                                Quản lý hoạt động
-                            </Authorization>
-                        </span>
-                    </NavLink>
+                                {tables}
+                            </span>
+                            <span className="label">
+                                <Authorization
+                                    type={TypeRoles.ifAnyGranted}
+                                    roles={[Roles.STUDENT]}
+                                >
+                                    Đăng ký tham gia
+                                </Authorization>
+                                <Authorization
+                                    type={TypeRoles.ifNotGranted}
+                                    roles={[Roles.STUDENT]}
+                                >
+                                    Quản lý hoạt động
+                                </Authorization>
+                            </span>
+                        </NavLink>
+                    </Authorization>
                 </Menu.Item>
                 <Authorization
                     type={TypeRoles.ifAnyGranted}
@@ -178,6 +183,24 @@ function Sidenav({ color }) {
                             {<SendOutlined />}
                         </span>
                             <span className="label">Gửi minh chứng</span>
+                        </NavLink>
+                    </Menu.Item>
+                </Authorization>
+                <Authorization
+                    type={TypeRoles.ifAnyGranted}
+                    roles={[Roles.CLASS]}
+                    >
+                    <Menu.Item key="5">
+                        <NavLink to={SITE_MAP.MANAGER_USER.LIST}>
+                        <span
+                            className="icon"
+                            style={{
+                                background: page === 'users' ? color : '',
+                            }}
+                        >
+                             <AppstoreOutlined />
+                        </span>
+                            <span className="label">Quản lý sinh viên</span>
                         </NavLink>
                     </Menu.Item>
                 </Authorization>
