@@ -8,3 +8,12 @@ export const getUsers = async (params = {}) => {
         return e.response.data;
     }
 };
+
+export const getMyAccount = async (params = {}) => {
+    try {
+        const response = await get('users/my-account', params);
+        return response.data;
+    } catch (e) {
+        return e.response.data;
+    }
+};

@@ -173,10 +173,6 @@ const SendClearProof = () => {
         })
     }
 
-    const handleCancel = () => {
-
-    }
-
     return (
         <SendClearProofStyle>
             <Card className="mb-24" title="Gửi minh chứng">

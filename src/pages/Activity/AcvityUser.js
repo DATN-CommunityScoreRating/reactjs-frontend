@@ -146,8 +146,8 @@ const ActivityUser = () => {
             key: 'action',
             render: (_, record) => {
                 let isActive = ACTIVITY_STATUS.ACTIVE.status === activity.status;
-                let canConfirm = [ACTIVITY_STATUS.GOING_ON, ACTIVITY_STATUS.EXPIRED.status].includes(activity.status)
-                    && [STUDENT_ACTIVITY_STATUS.REGISTERED.status, STUDENT_ACTIVITY_STATUS.SEND_PROOF.status].includes(record.status);
+                // let canConfirm = [ACTIVITY_STATUS.GOING_ON, ACTIVITY_STATUS.EXPIRED.status].includes(activity.status)
+                //     && [STUDENT_ACTIVITY_STATUS.REGISTERED.status, STUDENT_ACTIVITY_STATUS.SEND_PROOF.status].includes(record.status);
                 return (
                     <Space>
                         {/*{canConfirm && <Button type={"primary"}>Xác nhận</Button>}*/}

@@ -27,8 +27,10 @@ const SignIn = () => {
                     message: 'Đăng nhập thành công',
                     description: 'Chào mừng bạn đến với hệ thống đánh giá điểm cộng đồng',
                 });
-                if (ifAnyGranted([Roles.ADMIN])){
+                if (ifAnyGranted([Roles.ADMIN, Roles.UNION, Roles.FACULTY])){
                     history.push(SITE_MAP.MANAGER_CLASS.LIST);
+                } else if (ifAnyGranted([Roles.CLASS])){
+                    history.push(SITE_MAP.MANAGER_USER.LIST)
                 } else {
                     history.push(SITE_MAP.MANAGER_ACTIVITY.LIST)
                 }

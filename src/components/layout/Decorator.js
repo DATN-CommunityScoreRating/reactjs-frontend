@@ -32,9 +32,7 @@ function Decorator({ children }) {
 
     return (
         <Layout
-            className={`layout-dashboard ${pathname === 'profile' ? 'layout-profile' : ''} ${
-                pathname === 'rtl' ? 'layout-dashboard-rtl' : ''
-            }`}
+            className={`layout-dashboard`}
         >
             <Drawer
                 title={false}
