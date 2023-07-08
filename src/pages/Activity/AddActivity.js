@@ -51,9 +51,9 @@ const FormContainerStyle = styled.div`
 
 const AddActivity = () => {
     const [formData, setFormData] = useState({
-        score: 0,
+        score: 5,
         activityName: '',
-        maxQuantity: 0,
+        maxQuantity: 1,
         startRegister: '',
         endRegister: '',
         startDate: '',
@@ -190,7 +190,8 @@ const AddActivity = () => {
             component: (
                 <InputNumber
                     min={1}
-                    defaultValue={10000}
+                    max={10000}
+                    defaultValue={1}
                     value={formData.maxQuantity}
                     onChange={(value) => handleChangeData('maxQuantity', value)}
                 />

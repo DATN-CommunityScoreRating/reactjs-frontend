@@ -21,7 +21,7 @@ export const addActivity = async (body) => {
 export const getStudentActivity = async (activityId, params) => {
     try {
         return await get(`activities/${activityId}/students`, params);
-    } catch (e){
+    } catch (e) {
         return e.response;
     }
 }
@@ -36,7 +36,7 @@ export const getActivityById = async (activityId) => {
 
 export const registrationActivity = async (options) => {
     try {
-        return await post('activities/registration', options);
+        return await post('activities/kafka/registration', options);
     } catch (e){
         return e.response;
     }
@@ -69,7 +69,7 @@ export const getMyActivities = async () => {
 
 export const cancelActivity = async (activityId) => {
     try {
-        return await deleteAxios(`activities/cancel/${activityId}`)
+        return await deleteAxios(`activities/kafka/cancel/${activityId}`)
     } catch (e){
         return e.response;
     }

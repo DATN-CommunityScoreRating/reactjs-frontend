@@ -1,4 +1,4 @@
-import {Card, Table, Button, Typography, Tag, Progress, Dropdown, message, Popconfirm} from 'antd';
+import {Card, Table, Button, Typography, Tag, Progress, Dropdown, message, Popconfirm, Space} from 'antd';
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
 import SITE_MAP from '../../constants/path';
@@ -179,7 +179,7 @@ function Activity() {
                     message = ACTIVITY_STATUS.PENDING.message;
                 }
                 return (
-                    <>
+                    <Space direction={'vertical'}>
                         <Tag icon={icon} color={color}>
                             {message}
                         </Tag>
@@ -189,7 +189,7 @@ function Activity() {
                                 Cần xác nhận
                             </Tag>
                         }
-                    </>
+                    </Space>
                 );
             },
             width: '14%'
@@ -254,7 +254,7 @@ function Activity() {
                             <EllipsisOutlined />
                         </span>
                     </Dropdown> :
-                    record?.registered ?
+                    record?.registered && record.status === ACTIVITY_STATUS.ACTIVE.status ?
                         <Popconfirm
                             title="Hủy đăng ký"
                             description={`Bạn muốn hủy đăng ký hoạt động ${record.name}?`}

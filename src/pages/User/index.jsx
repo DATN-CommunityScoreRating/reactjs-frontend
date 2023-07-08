@@ -7,6 +7,7 @@ import { getFaculties } from '../../services/facultyService';
 import { convertOptions, getSearchParameters } from '../../utils/helper';
 import { getClasses } from '../../services/classService';
 import { getUsers } from '../../services/userService';
+import Authorization, {ifNotGranted, Roles, TypeRoles} from "../../container/authorize/Authorization";
 
 const StyleUser = styled.div`
     .user-filter-group {
@@ -121,33 +122,39 @@ const User = () => {
         <StyleUser>
             <Title level={3}>Quản lý sinh viên</Title>
             <div className="user-filter-group">
-                <Select
-                    className="select-element"
-                    showSearch
-                    style={{ width: 240 }}
-                    value={faculty}
-                    placeholder={`Chọn khoa`}
-                    onChange={handleChange}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                    }
-                    options={facultyOptions}
-                />
-                <Select
-                    className="select-element"
-                    showSearch
-                    value={clazz1}
-                    style={{ width: 160 }}
-                    placeholder="Chọn lớp"
-                    onChange={handleChangeClass}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                    }
-                    options={classOptions?.filter((e) => e.facultyId === faculty) || []}
-                />
-                <Button type={"primary"} style={{width:"60px"}} onClick={handleFilter}>Lọc</Button>
+                <Authorization
+                    type={TypeRoles.ifNotGranted}
+                    roles={[Roles.CLASS]}
+                    >
+                    { ifNotGranted([Roles.UNION, Roles.FACULTY]) &&
+                        <Select
+                            className="select-element"
+                            showSearch
+                            style={{ width: 240 }}
+                            value={faculty}
+                            placeholder={`Chọn khoa`}
+                            onChange={handleChange}
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                            }
+                            options={facultyOptions}
+                        />}
+                    <Select
+                        className="select-element"
+                        showSearch
+                        value={clazz1}
+                        style={{ width: 160 }}
+                        placeholder="Chọn lớp"
+                        onChange={handleChangeClass}
+                        optionFilterProp="children"
+                        filterOption={(input, option) =>
+                            (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                        }
+                        options={classOptions}
+                    />
+                    <Button type={"primary"} style={{width:"60px"}} onClick={handleFilter}>Lọc</Button>
+                </Authorization>
             </div>
             <div className="user-action-group">
                 <Table dataSource={userData?.items || []} columns={columns}></Table>

@@ -1,4 +1,4 @@
-import { Button, Select, Space } from 'antd';
+import {Button, Select, Space, Table} from 'antd';
 import './style.css';
 import { useEffect, useState } from 'react';
 import { getFaculties } from '../../services/facultyService';
@@ -7,7 +7,7 @@ import { getClasses } from '../../services/classService';
 import { getCourses } from '../../services/courseService';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import Table from '../../components/Table';
+import Authorization, {Roles, TypeRoles} from "../../container/authorize/Authorization";
 
 const ActionStyle = styled.div`
     display: flex;
@@ -112,18 +112,23 @@ const ManageClass = () => {
     return (
         <Space className={'manage-class'} direction={'vertical'} style={{ width: '100%' }}>
             <Space>
-                <Select
-                    showSearch
-                    style={{ width: 240 }}
-                    value={facultySelected}
-                    onChange={handleChangeFaculty}
-                    placeholder="Chọn khoa"
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                    }
-                    options={faculties}
-                />
+                <Authorization
+                    type={TypeRoles.ifNotGranted}
+                    roles={[Roles.FACULTY, Roles.UNION]}
+                    >
+                    <Select
+                        showSearch
+                        style={{ width: 240 }}
+                        value={facultySelected}
+                        onChange={handleChangeFaculty}
+                        placeholder="Chọn khoa"
+                        optionFilterProp="children"
+                        filterOption={(input, option) =>
+                            (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                        }
+                        options={faculties}
+                    />
+                </Authorization>
                 <Select
                     showSearch
                     style={{ width: 160 }}
