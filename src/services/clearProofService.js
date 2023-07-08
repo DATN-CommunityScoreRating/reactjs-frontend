@@ -2,7 +2,7 @@ import {get, post} from "../utils/request";
 
 export const sendActivityClearProof = async (options) => {
     try {
-        return await post('clear-proofs/activities', options);
+        return await post('clear-proofs/kafka/activities', options);
     } catch (e){
         return e.response;
     }
