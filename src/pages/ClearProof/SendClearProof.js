@@ -7,7 +7,7 @@ import Editor from "../../components/Editor";
 import {SendOutlined} from "@ant-design/icons";
 import {getActivityCategory, getSubActivityCategory} from "../../services/activityCategoryService";
 import {convertOptions} from "../../utils/helper";
-import {sendClearProof} from "../../services/clearProofService";
+import {sendClearProofKafka} from "../../services/clearProofService";
 import {useHistory} from "react-router-dom";
 import SITE_MAP from "../../constants/path";
 
@@ -161,7 +161,7 @@ const SendClearProof = () => {
     ]
 
     const handleSendClearProof = () => {
-        sendClearProof({
+        sendClearProofKafka({
             ...clearProof,
             description
         }).then(res => {
