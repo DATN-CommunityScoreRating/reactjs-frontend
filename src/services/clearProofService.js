@@ -41,6 +41,14 @@ export const sendClearProof = async (options) => {
     }
 }
 
+export const sendClearProofKafka = async (options) => {
+    try {
+        return await post("clear-proofs/kafka", options);
+    } catch (e){
+        return e.response;
+    }
+}
+
 
 export const getAllClearProof = async (options) => {
     try {
